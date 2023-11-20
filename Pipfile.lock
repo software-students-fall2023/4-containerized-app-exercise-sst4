@@ -356,7 +356,7 @@
             ],
             "markers": "python_version < '3.11'",
             "version": "==4.8.0"
-        }
+        },
         "werkzeug": {
             "hashes": [
                 "sha256:507e811ecea72b18a404947aded4b3390e1db8f826b494d76550ef45bb3b1dcc",
