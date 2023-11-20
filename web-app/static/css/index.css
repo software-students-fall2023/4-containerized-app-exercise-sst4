@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Inter');
+
+body {
+    min-width: 400px;
+    background-color: white;
+}
+
+header {
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 50px;
+    font-weight: 800;
+    color: #3C5898;
+    user-select: none;
+}
+
+#logo-icon {
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    width: 55px;
+    height: 55px;
+    border-radius: 13px;
+    background-color: #3C5898;
+    user-select: none;
+}
+
+#logo-icon-letter {
+    scale: 0.8 1.1;
+    position: absolute;
+    right: 4px;
+    bottom: -13px;
+    font-size: 60px;
+    font-weight: 800;
+    color: white;
+}
