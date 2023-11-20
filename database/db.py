@@ -19,5 +19,5 @@ try:
     client.admin.command('ping')
     DB = client[os.getenv('MONGODB_DATABASE')]
     print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
+except Exception as e: # pylint: disable=broad-except
     print(e)
