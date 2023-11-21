@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Facialbook</title>
+
     <link rel="preload" href="{{ url_for('static', filename='css/normalize.css') }}" as="style">
     <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+
+    <script src="{{ url_for('static', filename='js/index.js') }}" async></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -15,6 +19,13 @@
         </div>
         <span id="logo-text">Facialbook</span>
     </header>
-    
+    <main>
+        <div id="camera-div">
+            <video poster="{{ url_for('static', filename='img/face.jpg') }}" id="camera" class="cam-swapping" width="350" height="350">📸</video>
+        </div>
+        <div id="swap-btn-div">
+            <button id="swap-camera-btn" type="button">🔄 ...</button>
+        </div>
+    </main>
 </body>
 </html>
