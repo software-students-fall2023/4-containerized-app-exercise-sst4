@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    """main page (only page)"""
     return render_template('index.html')
 
 
