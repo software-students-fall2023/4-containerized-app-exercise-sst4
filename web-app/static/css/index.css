@@ -64,9 +64,9 @@ main {
 
 #camera-div {
     aspect-ratio: 1 / 1;
+    width: var(--login-wid);
     position: relative;
     box-sizing: border-box;
-    width: var(--login-wid);
     padding: 5px;
 }
 
@@ -75,7 +75,7 @@ main {
     width: calc(100% - 10px);
     margin: 5px;
     background-color: gray;
-    border-radius: 10px;
+    border-radius: 7px;
     overflow: hidden;
 }
 
@@ -114,6 +114,17 @@ main {
     opacity: 1;
     transition: opacity .3s 0s;
 
+}
+
+#photo {
+    display: none;
+    width: 330px;
+    height: 330px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    border-radius: 7px;
 }
 
 /* SHOW AND HIDE */
@@ -186,15 +197,20 @@ p.info {
     font-size: 30px;
 }
 
-#snap {
+#take-photo {
+    cursor: pointer;
     width: calc(var(--login-wid) - 20px);
     padding: 7px;
     border: none;
     border-radius: 7px;
     font-size: 25px;
-    font-weight: 700;
+    font-weight: 600;
     color: white;
     background-color: var(--fb-blue);
+}
+
+#take-photo:hover {
+    background-color: #637db8;
 }
 
 /* NOTEBOOK */

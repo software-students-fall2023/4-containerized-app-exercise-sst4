@@ -1,6 +1,14 @@
-let cam_device = undefined
-let cam_devices = undefined
+let cam_device, cam_devices
 let cam_device_labels = {}
+
+let camera, camSwapBtn, camCanvas, photo, photoBtn
+const elesById = () => {
+    camera = document.getElementById('camera')
+    camSwapBtn = document.getElementById('swap-camera-btn')
+    camCanvas = document.getElementById('cam-canvas')
+    photo = document.getElementById('photo')
+    photoBtn = document.getElementById('take-photo')
+}
 
 const findCameras = () => {
     navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -14,11 +22,8 @@ const findCameras = () => {
 }
 
 const startCamera = () => {
-    const camera = document.getElementById('camera')
-    const btn = document.getElementById('swap-camera-btn')
-
     camera.pause()
-    btn.innerHTML = `🔄️ ...`
+    camSwapBtn.innerHTML = `🔄️ ...`
     camera.classList.add('cam-swapping')
 
     navigator.mediaDevices
@@ -32,7 +37,7 @@ const startCamera = () => {
         })
         .then(stream => {
             cam_device = cam_device ?? stream.getVideoTracks()[0].getSettings().deviceId
-            btn.innerHTML = `🔄️ ${cam_device_labels[cam_device]}`
+            camSwapBtn.innerHTML = `🔄️ ${cam_device_labels[cam_device]}`
             camera.srcObject = stream
             camera.classList.remove('cam-swapping')
             camera.play()
@@ -40,43 +45,51 @@ const startCamera = () => {
         .catch(err => {
             console.error(`Couldn't get camera stream: ${err}`)
             camera.play()
-            btn.innerHTML = `🔄️ ${cam_device_labels[cam_device]}`
+            camSwapBtn.innerHTML = `🔄️ ${cam_device_labels[cam_device]}`
             camera.classList.remove('cam-swapping')
 
         })
 }
 
 const setupSwapCamera = () => {
-    const btn = document.getElementById('swap-camera-btn')
-    btn.onclick = () => {
+    camSwapBtn.onclick = () => {
         cam_device = cam_devices[(cam_devices.indexOf(cam_device) + 1) % cam_devices.length]
         startCamera()
     }
 }
 
-const testfunc = () => {
-    const btn = document.getElementById('testbtn')
-    btn.onclick = () => {
-        const a = document.getElementById('account-div')
-        const b = document.getElementById('notebook-div')
-        if (a.classList.contains('shrink')) {
-            a.classList.remove('shrink')
-            b.classList.add('shrink')
-            a.classList.add('grow')
-            b.classList.remove('grow')
-        } else {
-            a.classList.add('shrink')
-            b.classList.remove('shrink')
-            a.classList.remove('grow')
-            b.classList.add('grow')
-        }
+const takePhoto = () => {
+    const maxDim = Math.max(camera.videoHeight, camera.videoWidth)
+    const extraWid = (maxDim - camera.videoHeight)
+    const extraHgt = (maxDim - camera.videoWidth)
+
+    // draw cropped square from video, 350 x 350
+    camCanvas.getContext('2d').drawImage(
+        camera,
+        extraWid / 2, extraHgt / 2,
+        camera.videoWidth - extraWid, camera.videoHeight - extraHgt,
+        0,0,
+        camCanvas.width,
+        camCanvas.height
+    )
+    const data = camCanvas.toDataURL('image/png')
+    photo.src = data
+
+}
+
+const setupPhoto = () => {
+    photoBtn.onclick = () => {
+        takePhoto()
+        photo.style.display = 'block'
     }
 }
 
 const init = () => {
+    elesById()
     findCameras()
     startCamera()
     setupSwapCamera()
+    setupPhoto()
 }
 
 if (document.readyState !== "loading") init()

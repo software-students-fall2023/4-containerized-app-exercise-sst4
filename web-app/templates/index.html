@@ -26,14 +26,16 @@
             <div id="login">
                 <p class="info">Smile and take a picture 🙂</p>
                 <div id="camera-div">
+                    <canvas id="cam-canvas" width="350" height="350" style="display: none;"></canvas>
                     <div id="cam-wrapper">
                         <video poster="{{ url_for('static', filename='img/face.jpg') }}" id="camera" class="cam-swapping" width="350" height="350">📸</video>
                     </div>
                     <div id="swap-btn-div">
                         <button id="swap-camera-btn" type="button">🔄 ...</button>
                     </div>
+                    <img id="photo" src="" alt="your face" width="350" height="350">
                 </div>
-                <button id="snap" type="button">Take photo</button>
+                <button id="take-photo" type="button">Take photo</button>
             </div>
             <div id="account">welcome back</div>
         </div>
