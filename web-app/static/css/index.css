@@ -118,13 +118,28 @@ main {
 
 #photo {
     display: none;
-    width: 330px;
-    height: 330px;
+    width: calc(var(--login-wid) - 20px);
+    height: calc(var(--login-wid) - 20px);
     position: absolute;
     top: 0;
     left: 0;
     margin: 10px;
     border-radius: 7px;
+    background-color: white;
+}
+
+.flash {
+    animation: flash 1s ease-out .15s 1 normal both;
+}
+
+@keyframes flash {
+    from {
+        filter: contrast(0) brightness(2);
+        scale: 1.05;
+    }
+    to {
+        filter: contrast(1) brightness(1);
+    }
 }
 
 /* SHOW AND HIDE */

@@ -74,13 +74,14 @@ const takePhoto = () => {
     )
     const data = camCanvas.toDataURL('image/png')
     photo.src = data
-
 }
 
 const setupPhoto = () => {
     photoBtn.onclick = () => {
         takePhoto()
+        photo.classList.add('flash')
         photo.style.display = 'block'
+        
     }
 }
 
