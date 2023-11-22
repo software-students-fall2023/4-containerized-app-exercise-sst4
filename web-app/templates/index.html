@@ -22,15 +22,26 @@
         <span id="logo-text">Facialbook</span>
     </header>
     <main>
-        <div id="camera-div">
-            <video poster="{{ url_for('static', filename='img/face.jpg') }}" id="camera" class="cam-swapping" width="350" height="350">📸</video>
+        <div id="account-div" class="grow">
+            <div id="login">
+                <p class="info">Smile and take a picture 🙂</p>
+                <div id="camera-div">
+                    <div id="cam-wrapper">
+                        <video poster="{{ url_for('static', filename='img/face.jpg') }}" id="camera" class="cam-swapping" width="350" height="350">📸</video>
+                    </div>
+                    <div id="swap-btn-div">
+                        <button id="swap-camera-btn" type="button">🔄 ...</button>
+                    </div>
+                </div>
+                <button id="snap" type="button">Take photo</button>
+            </div>
+            <div id="account">welcome back</div>
         </div>
-        <div id="swap-btn-div">
-            <button id="swap-camera-btn" type="button">🔄 ...</button>
-        </div>
-        <div id="notebook-div">
+        <div id="notebook-div" class="shrink">
             <textarea id="notebook"></textarea>
+            <span id="notebook-cover">🫵 log in first </span>
         </div>
+        <div id="bottom"></div>
     </main>
 </body>
 </html>

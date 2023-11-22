@@ -54,6 +54,25 @@ const setupSwapCamera = () => {
     }
 }
 
+const testfunc = () => {
+    const btn = document.getElementById('testbtn')
+    btn.onclick = () => {
+        const a = document.getElementById('account-div')
+        const b = document.getElementById('notebook-div')
+        if (a.classList.contains('shrink')) {
+            a.classList.remove('shrink')
+            b.classList.add('shrink')
+            a.classList.add('grow')
+            b.classList.remove('grow')
+        } else {
+            a.classList.add('shrink')
+            b.classList.remove('shrink')
+            a.classList.remove('grow')
+            b.classList.add('grow')
+        }
+    }
+}
+
 const init = () => {
     findCameras()
     startCamera()
