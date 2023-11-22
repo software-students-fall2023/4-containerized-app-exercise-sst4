@@ -3,8 +3,10 @@
 <head>
     <title>Facialbook</title>
 
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Shantell+Sans:500" as="style">
     <link rel="preload" href="{{ url_for('static', filename='css/normalize.css') }}" as="style">
     <link rel="preload" href="{{ url_for('static', filename='css/index.css') }}" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Shantell+Sans:500">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 
@@ -25,6 +27,9 @@
         </div>
         <div id="swap-btn-div">
             <button id="swap-camera-btn" type="button">🔄 ...</button>
+        </div>
+        <div id="notebook-div">
+            <textarea id="notebook"></textarea>
         </div>
     </main>
 </body>
