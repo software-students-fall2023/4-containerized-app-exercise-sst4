@@ -207,6 +207,7 @@ p.info {
     width: calc(var(--login-wid) - 20px);
     display: flex;
     justify-content: space-between;
+    gap: 15px;
 }
 
 .login-btn {
@@ -219,13 +220,24 @@ p.info {
     font-weight: 600;
 }
 
-#take-photo {
+#take-photo,
+#submit {
     color: white;
     background-color: var(--fb-blue);
 }
 
-#take-photo:hover {
+#take-photo:hover,
+#submit:hover {
     background-color: #637db8;
+}
+
+#back-btn {
+    color: rgb(35, 35, 35);
+    background-color: rgb(220, 220, 220);
+}
+
+#back-btn:hover {
+    background-color: rgb(200, 200, 200);
 }
 
 /* NOTEBOOK */

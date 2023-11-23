@@ -1,13 +1,17 @@
+;(() => {
+
 let cam_device, cam_devices
 let cam_device_labels = {}
 
-let camera, camSwapBtn, camCanvas, photo, photoBtn
+let camera, camSwapBtn, camCanvas, photo, photoBtn, backBtn, submitBtn
 const elesById = () => {
     camera = document.getElementById('camera')
     camSwapBtn = document.getElementById('swap-camera-btn')
     camCanvas = document.getElementById('cam-canvas')
     photo = document.getElementById('photo')
     photoBtn = document.getElementById('take-photo')
+    backBtn = document.getElementById('back-btn')
+    submitBtn = document.getElementById('submit')
 }
 
 const findCameras = () => {
@@ -76,12 +80,25 @@ const takePhoto = () => {
     photo.src = data
 }
 
+const confirmPhoto = () => {
+
+}
+
 const setupPhoto = () => {
     photoBtn.onclick = () => {
         takePhoto()
         photo.classList.add('flash')
         photo.style.display = 'block'
-        
+        photoBtn.style.display = 'none'
+        backBtn.style.display = 'block'
+        submitBtn.style.display = 'block'
+    }
+    backBtn.onclick = () => {
+        photo.style.display = 'none'
+        photo.classList.remove('flash')
+        photoBtn.style.display = 'block'
+        backBtn.style.display = 'none'
+        submitBtn.style.display = 'none'
     }
 }
 
@@ -95,3 +112,5 @@ const init = () => {
 
 if (document.readyState !== "loading") init()
 else window.addEventListener("load", init)
+
+})();
