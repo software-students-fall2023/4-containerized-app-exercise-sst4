@@ -82,13 +82,23 @@ const takePhoto = () => {
     photo.src = data
 }
 
+let loginAbort = new AbortController();
+
 const confirmPhoto = () => {
     submitBtn.onclick = () => {
+        submitBtn.disabled = true
+        submitBtn.textContent = '...'
+        const dotdotdot = setInterval(() => {
+            submitBtn.textContent = '.'.repeat(submitBtn.textContent.length % 3 + 1)
+        }, 500)
+
         fetch('/login', {
             method: "POST",
             body: photo.src,
+            signal: loginAbort.signal,
         })
         .then(async res => {
+            clearInterval(dotdotdot)
             r = await res.json()
             switch (r.status) {
             case 'ok':
@@ -103,7 +113,17 @@ const confirmPhoto = () => {
             }
         })
         .catch(err => {
-            console.error(`Error logging in: ${err}`)
+            clearInterval(dotdotdot)
+            submitBtn.textContent = 'Continue'
+            submitBtn.disabled = false
+            if (loginAbort.signal.aborted) {
+                console.log('Login cancelled.');
+                loginAbort = new AbortController();
+            }
+            else {
+                submitBtn.classList.add('error')
+                console.error(`Error logging in: ${err}`)
+            }
         })
     }
 }
@@ -118,11 +138,13 @@ const setupPhoto = () => {
         submitBtn.style.display = 'block'
     }
     backBtn.onclick = () => {
+        if (submitBtn.disabled) loginAbort.abort()
         photo.style.display = 'none'
         photo.classList.remove('flash')
         photoBtn.style.display = 'block'
         backBtn.style.display = 'none'
         submitBtn.style.display = 'none'
+        submitBtn.classList.remove('error')
     }
     confirmPhoto()
 }

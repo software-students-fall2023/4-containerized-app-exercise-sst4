@@ -211,7 +211,6 @@ p.info {
 }
 
 .login-btn {
-    flex-grow: 1;
     cursor: pointer;
     padding: 7px;
     border: none;
@@ -222,6 +221,7 @@ p.info {
 
 #take-photo,
 #submit {
+    flex-grow: 1;
     color: white;
     background-color: var(--fb-blue);
 }
@@ -231,7 +231,23 @@ p.info {
     background-color: #637db8;
 }
 
+#submit.error {
+    background-color: rgb(160, 53, 53);
+}
+
+#submit.error:hover {
+    background-color: rgb(201, 79, 79);
+}
+
+#submit:disabled,
+#submit:disabled:hover {
+    cursor: not-allowed;
+    background-color: dimgray;
+}
+
 #back-btn {
+    width: 30%;
+    min-width: 75px;
     color: rgb(35, 35, 35);
     background-color: rgb(220, 220, 220);
 }

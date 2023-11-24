@@ -25,7 +25,7 @@ def login():
     #     im.show()
 
     # @TODO send image to ML client
-    sleep(1)
+    sleep(5)
 
     # dummy return @TODO
     status = 'ok'
