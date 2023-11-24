@@ -3,7 +3,7 @@
 let cam_device, cam_devices
 let cam_device_labels = {}
 
-let camera, camSwapBtn, camCanvas, photo, photoBtn, backBtn, submitBtn
+let camera, camSwapBtn, camCanvas, photo, photoBtn, backBtn, submitBtn, acctDiv, noteDiv, noteTxt
 const elesById = () => {
     camera = document.getElementById('camera')
     camSwapBtn = document.getElementById('swap-camera-btn')
@@ -12,6 +12,9 @@ const elesById = () => {
     photoBtn = document.getElementById('take-photo')
     backBtn = document.getElementById('back-btn')
     submitBtn = document.getElementById('submit')
+    acctDiv = document.getElementById('account-div')
+    noteDiv = document.getElementById('notebook-div')
+    noteTxt = document.getElementById('notebook')
 }
 
 const findCameras = () => {
@@ -51,7 +54,6 @@ const startCamera = () => {
             camera.play()
             camSwapBtn.innerHTML = `🔄️ ${cam_device_labels[cam_device]}`
             camera.classList.remove('cam-swapping')
-
         })
 }
 
@@ -81,7 +83,29 @@ const takePhoto = () => {
 }
 
 const confirmPhoto = () => {
-
+    submitBtn.onclick = () => {
+        fetch('/login', {
+            method: "POST",
+            body: photo.src,
+        })
+        .then(async res => {
+            r = await res.json()
+            switch (r.status) {
+            case 'ok':
+                acctDiv.classList.remove('grow')
+                acctDiv.classList.add('shrink')
+                noteDiv.classList.remove('shrink')
+                noteDiv.classList.add('grow')
+                noteTxt.value = r.content
+                break
+            default:
+                console.warn(`Unknown login response status: ${r.status}`);
+            }
+        })
+        .catch(err => {
+            console.error(`Error logging in: ${err}`)
+        })
+    }
 }
 
 const setupPhoto = () => {
@@ -100,6 +124,7 @@ const setupPhoto = () => {
         backBtn.style.display = 'none'
         submitBtn.style.display = 'none'
     }
+    confirmPhoto()
 }
 
 const init = () => {

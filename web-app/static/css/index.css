@@ -200,7 +200,7 @@ p.info {
     padding: 15px 10px 10px;
     text-align: center;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 #btn-div {
@@ -263,6 +263,7 @@ p.info {
     font-weight: 500;
     font-size: 25px;
     line-height: 42px;
+    overflow: scroll;
     background: repeating-linear-gradient(white, white 40px, #b4baf9 41px, #b4baf9 42px) 0px 8px local;
 }
 
@@ -291,7 +292,7 @@ p.info {
     }
 
     p.info {
-        font-size: 23px;
+        font-size: 20px;
     }
 }
 
