@@ -9,6 +9,7 @@ from PIL import Image
 from io import BytesIO
 import io
 import face_recognition
+from bson.binary import Binary
 import sys
 sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
 
@@ -46,6 +47,9 @@ def get_user_data_two():
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/register")
+def register():
+    return render_template("register.html")
 
 reference_image_path = get_user_data_two()
 reference_image = face_recognition.api.load_image_file(reference_image_path)
@@ -54,20 +58,20 @@ reference_encoding = face_recognition.face_encodings(reference_image)[0]
 @app.route("/recognize", methods=["POST"])
 def recognize_user_api():
     try:
+        # image_binary = base64.b64encode(get_user_data_two.read()).decode('utf-8')
+
+        # # Insert the Base64-encoded image into MongoDB
+        # data = {'image': image_binary}
+        # usersCollection.insert_one(data)
+
+        # # data = {'image': image_binary}
+        # # usersCollection.insert_one(data)
+        # return jsonify({"image": "people"})
+
         data = request.get_json()
         image_data = data.get('image')
 
-        image_bytes = base64.b64decode(image_data.split(',')[1])
-        image = Image.open(io.BytesIO(image_bytes))
-
-        image_np = face_recognition.api.load_image_file(io.BytesIO(image_bytes))
-
-        face_encodings = face_recognition.face_encodings(image_np)
-
-        if not face_encodings:
-            return jsonify({'message': 'No faces found in the captured image.'})
-
-        results = face_recognition.compare_faces([reference_encoding], face_encodings[0])
+        results = recognition.recognize_user(image_data)
 
         if results[0]:
             response = {'message': 'Face recognized!'}
@@ -78,6 +82,16 @@ def recognize_user_api():
 
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+@app.route("/register", methods=["POST"])
+def register_user():
+    req = request.get_json()
+    image_data = req["image"]
+    name_data = req["name"]
+    data = {'image': image_data, "name": name_data}
+    usersCollection.insert_one(data)
+
+    return jsonify({"world": "hello"})
 
 if __name__ == "__main__":
     app.run(debug=True)

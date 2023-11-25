@@ -8,8 +8,8 @@
   <body>
     <video id="video" width="640" height="480" autoplay></video>
     <button id="capture">Capture</button>
-    <a href="/register" class="button">Register</a>
     <canvas id="canvas" width="640" height="480"></canvas>
+    <a href="/" class="button">Home</a>
 
     <script>
       document.addEventListener("DOMContentLoaded", (event) => {
@@ -40,12 +40,12 @@
         });
 
         function sendImageData(imageData) {
-          fetch("/recognize", {
+          fetch("/register", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ image: imageData }),
+            body: JSON.stringify({ name: "Richard", image: imageData }),
           })
             .then((response) => response.json())
             .then((data) => {
