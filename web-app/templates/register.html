@@ -10,8 +10,18 @@
     <button id="capture">Capture</button>
     <canvas id="canvas" width="640" height="480"></canvas>
     <a href="/" class="button">Home</a>
+    <form id="registrationForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+    </form>
 
     <script>
+      /*video is the video that is show on screen
+        capture is the button that sends image + name to backend
+        canvas draws image on screen
+        href redirects Home
+        registrationForm is for filling out name
+        */
       document.addEventListener("DOMContentLoaded", (event) => {
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
@@ -23,7 +33,7 @@
           .getUserMedia({ video: true })
           .then((userStream) => {
             video.srcObject = userStream;
-            stream = userStream; // Assign userStream to the global variable
+            stream = userStream;
           })
           .catch((error) => {
             console.error("Error accessing camera:", error);
@@ -36,16 +46,18 @@
 
           const imageDataURL = canvas.toDataURL("image/jpeg");
 
-          sendImageData(imageDataURL);
+          const name = registrationForm.elements["name"].value;
+
+          sendImageData(imageDataURL, name);
         });
 
-        function sendImageData(imageData) {
+        function sendImageData(imageData, name) {
           fetch("/register", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name: "Richard", image: imageData }),
+            body: JSON.stringify({ name: name, image: imageData }),
           })
             .then((response) => response.json())
             .then((data) => {

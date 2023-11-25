@@ -18,44 +18,44 @@ from database.db import db
 
 app = Flask(__name__)
 
-usersCollection = db["users"]
+usersCollection = db["users"] # Collection for users
 
 
 
-def get_user_data():
-    # image_path = os.path.join(app.static_folder, "richard.jpg")
+# def get_user_data():
+#     # image_path = os.path.join(app.static_folder, "richard.jpg")
     
-    # with open(image_path, "rb") as image_file:
-    #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+#     # with open(image_path, "rb") as image_file:
+#     #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
     
-    # return base64_image
-    image_path = os.path.join(app.static_folder, "richard.jpg")
-    return image_path
+#     # return base64_image
+#     image_path = os.path.join(app.static_folder, "richard.jpg")
+#     return image_path
 
-def get_user_data_two():
-    # image_path = os.path.join(app.static_folder, "richard.jpg")
+# def get_user_data_two():
+#     # image_path = os.path.join(app.static_folder, "richard.jpg")
     
-    # with open(image_path, "rb") as image_file:
-    #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+#     # with open(image_path, "rb") as image_file:
+#     #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
     
-    # return base64_image
-    image_path = os.path.join(app.static_folder, "obama.jpg")
-    image = Image.open(image_path)
-    return image_path
+#     # return base64_image
+#     image_path = os.path.join(app.static_folder, "obama.jpg")
+#     image = Image.open(image_path)
+#     return image_path
 
 
-@app.route("/")
+@app.route("/") # Route for /
 def index():
     return render_template("index.html")
-@app.route("/register")
+@app.route("/register") # Route for Register
 def register():
     return render_template("register.html")
 
-reference_image_path = get_user_data_two()
-reference_image = face_recognition.api.load_image_file(reference_image_path)
-reference_encoding = face_recognition.face_encodings(reference_image)[0]
+# reference_image_path = get_user_data_two()
+# reference_image = face_recognition.api.load_image_file(reference_image_path)
+# reference_encoding = face_recognition.face_encodings(reference_image)[0]
 
-@app.route("/recognize", methods=["POST"])
+@app.route("/recognize", methods=["POST"]) # Post method for recognize
 def recognize_user_api():
     try:
         # image_binary = base64.b64encode(get_user_data_two.read()).decode('utf-8')
@@ -68,30 +68,25 @@ def recognize_user_api():
         # # usersCollection.insert_one(data)
         # return jsonify({"image": "people"})
 
-        data = request.get_json()
+        data = request.get_json() # Recieves image from frontend
         image_data = data.get('image')
 
-        results = recognition.recognize_user(image_data)
+        results = recognition.recognize_user(image_data) # passes the users image to recognition
 
-        if results[0]:
-            response = {'message': 'Face recognized!'}
-        else:
-            response = {'message': 'Face not recognized.'}
-
-        return jsonify(response)
+        return jsonify(results)
 
     except Exception as e:
         return jsonify({'error': str(e)})
     
 @app.route("/register", methods=["POST"])
 def register_user():
-    req = request.get_json()
+    req = request.get_json() # Recieves name and image from user
     image_data = req["image"]
     name_data = req["name"]
     data = {'image': image_data, "name": name_data}
-    usersCollection.insert_one(data)
+    usersCollection.insert_one(data) # Pushes it to mongoDB
 
-    return jsonify({"world": "hello"})
+    return jsonify({"world": "hello"}) # Dummy response for now
 
 if __name__ == "__main__":
     app.run(debug=True)
