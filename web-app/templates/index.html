@@ -24,6 +24,7 @@
       <button id="capture">Capture</button>
       <a href="/register" class="button">Register</a>
     </div>
+    <div id="message-container"></div>
 
     <script>
       document.addEventListener("DOMContentLoaded", (event) => {
@@ -63,6 +64,10 @@
           })
             .then((response) => response.json())
             .then((data) => {
+              const message = data.message;
+              document.getElementById(
+                "message-container"
+              ).innerHTML = `<p>${message}</p>`;
               console.log("Response from backend:", data);
             })
             .catch((error) => {

@@ -73,7 +73,7 @@ def recognize_user_api():
 
         results = recognition.recognize_user(image_data) # passes the users image to recognition
 
-        return jsonify(results)
+        return jsonify({"message": results})
 
     except Exception as e:
         return jsonify({'error': str(e)})
