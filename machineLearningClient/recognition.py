@@ -51,7 +51,7 @@ def recognize_user(user):
             # reference_encodings = face_recognition.face_encodings(reference_np)
             # print(len(reference_encodings[0]))
 
-            results = face_recognition.compare_faces(reference_encodings, face_encodings[0]) # Compares the two faces, not sure why one is [0] but i trialed and errored and this is what worked
+            results = face_recognition.compare_faces(reference_encodings, face_encodings[0], tolerance=0.4) # Compares the two faces, not sure why one is [0] but i trialed and errored and this is what worked
         
             if results[0]: # Should only be here if match
                 name = document["name"]
