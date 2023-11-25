@@ -13,6 +13,7 @@ pillow = "*"
 colorama = "*"
 tomli = "*"
 typing-extensions = "*"
+dill = "*"
 
 [dev-packages]
 
