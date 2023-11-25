@@ -19,7 +19,7 @@ def recognize_user(user):
         face_encodings = face_recognition.face_encodings(image_np) #Does the libraries encoding preparing for comaprison
 
         if not face_encodings:
-            return {'message': 'No faces found in the captured image.'}
+            return 'No faces found in the captured image.'
 
         usersCollection = db["users"]
         usersFind = usersCollection.find({}) # Finds all users
