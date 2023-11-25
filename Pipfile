@@ -10,8 +10,11 @@ black = "*"
 pymongo = "*"
 python-dotenv = "*"
 pillow = "*"
+colorama = "*"
+tomli = "*"
+typing-extensions = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
