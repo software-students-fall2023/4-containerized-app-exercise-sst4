@@ -11,7 +11,16 @@ import io
 import face_recognition
 from bson.binary import Binary
 import sys
-sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
+
+current_script_path = os.path.abspath(__file__)
+
+# Navigate to the project directory
+project_path = os.path.dirname(os.path.dirname(current_script_path))
+
+# Add the project directory to the sys.path
+sys.path.append(project_path)
+
+# sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
 
 from machineLearningClient import recognition
 from database.db import db
