@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Camera Capture</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/register.css') }}"
+    />
   </head>
   <body>
-    <video id="video" width="640" height="480" autoplay></video>
+    <div class="container">
+      <div class="video-container">
+        <h2>Video</h2>
+        <video id="video" width="640" height="480" autoplay></video>
+      </div>
+      <div class="canvas-container">
+        <h2>Canvas</h2>
+        <canvas id="canvas" width="640" height="480"></canvas>
+      </div>
+    </div>
     <button id="capture">Capture</button>
-    <canvas id="canvas" width="640" height="480"></canvas>
     <a href="/" class="button">Home</a>
     <form id="registrationForm">
       <label for="name">Name:</label>
