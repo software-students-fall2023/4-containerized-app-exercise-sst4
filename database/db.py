@@ -1,25 +1,42 @@
-"""
-Connects to the MongoDB database
-"""
-
+from flask import Flask, render_template, request, redirect, url_for, make_response
+from dotenv import load_dotenv
 import os
 
+import pymongo
+import datetime
+from bson.objectid import ObjectId
+import sys
 from pymongo import MongoClient
-from dotenv import load_dotenv
 
-load_dotenv()
+#We now use this file to connect to the database. add from db import db at the top of your file 
 
-# Create a new client and connect to the server
-uri = os.getenv("MONGODB_URI").format(
-    os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
-)
-client = MongoClient(uri, serverSelectionTimeoutMS=3000)
-DB = None
+cxn = None
+db = None
 
-# Send a ping to confirm a successful connection
-try:
-    client.admin.command("ping")
-    DB = client[os.getenv("MONGODB_DATABASE")]
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:  # pylint: disable=broad-except
-    print(e)
+def connect():
+    global cxn, db
+    if cxn is not None:
+        return
+    load_dotenv()  # take environment variables from .env.
+
+    # connect to the database
+    cxn = pymongo.MongoClient(os.getenv('MONGO_URI'),
+                            serverSelectionTimeoutMS=5000)
+
+    try:
+        # verify the connection works by pinging the database
+        # The ping command is cheap and does not require auth.
+        cxn.admin.command('ping')
+        db = cxn[os.getenv('MONGO_DBNAME')]  # store a reference to the database
+        # if we get here, the connection worked!
+        print(' *', 'Connected to MongoDB!')
+        return db
+    
+    except Exception as e:
+        # the ping command failed, so the connection is not available.
+        print(' *', "Failed to connect to MongoDB at", os.getenv('MONGO_URI'))
+        print('Database connection error:', e)  # debug
+        return None
+
+
+connect()

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera Capture</title>
+  </head>
+  <body>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture">Capture</button>
+    <canvas id="canvas" width="640" height="480"></canvas>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureButton = document.getElementById("capture");
+
+        let stream;
+
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((userStream) => {
+            video.srcObject = userStream;
+            stream = userStream; // Assign userStream to the global variable
+          })
+          .catch((error) => {
+            console.error("Error accessing camera:", error);
+          });
+
+        captureButton.addEventListener("click", () => {
+          const context = canvas.getContext("2d");
+
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const imageDataURL = canvas.toDataURL("image/jpeg");
+
+          sendImageData(imageDataURL);
+        });
+
+        function sendImageData(imageData) {
+          fetch("/recognize", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ image: imageData }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Response from backend:", data);
+            })
+            .catch((error) => {
+              console.error("Error sending image data to the backend:", error);
+            });
+        }
+      });
+    </script>
+  </body>
+</html>
