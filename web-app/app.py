@@ -1,6 +1,7 @@
 """
 This is the app.py boilerplate
 """
+
 from time import sleep
 from base64 import b64decode
 from io import BytesIO
@@ -46,4 +47,4 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
