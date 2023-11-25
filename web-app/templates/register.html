@@ -13,19 +13,25 @@
     <div class="container">
       <div class="video-container">
         <h2>Video</h2>
-        <video id="video" width="640" height="480" autoplay></video>
+        <video
+          class="video"
+          id="video"
+          width="640"
+          height="480"
+          autoplay
+        ></video>
       </div>
       <div class="canvas-container">
         <h2>Canvas</h2>
-        <canvas id="canvas" width="640" height="480"></canvas>
+        <canvas class="canvas" id="canvas" width="640" height="480"></canvas>
       </div>
     </div>
-    <button id="capture">Capture</button>
-    <a href="/" class="button">Home</a>
     <form id="registrationForm">
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required />
     </form>
+    <button id="capture">Capture</button>
+    <a href="/" class="button">Home</a>
 
     <script>
       /*video is the video that is show on screen

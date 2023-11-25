@@ -24,6 +24,13 @@ body {
 video, canvas {
     width: 100%;
 }
+.video, .canvas{
+    width: 640px;
+    height: 480px;
+    border-radius: 10px; /* Adjust the border-radius as needed */
+    overflow: hidden; /* Ensure content does not overflow rounded corners */
+}
+
 
 h2 {
     margin-top: 0;

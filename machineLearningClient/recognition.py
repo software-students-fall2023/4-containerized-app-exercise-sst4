@@ -31,7 +31,6 @@ def recognize_user(user):
             reference_np = face_recognition.api.load_image_file(io.BytesIO(reference_bytes))
 
             reference_encodings = face_recognition.face_encodings(reference_np)
-            print(face_encodings)
 
             results = face_recognition.compare_faces(reference_encodings, face_encodings[0]) # Compares the two faces, not sure why one is [0] but i trialed and errored and this is what worked
         
