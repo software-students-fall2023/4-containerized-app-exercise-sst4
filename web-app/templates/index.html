@@ -45,7 +45,13 @@
                     Your photos are never stored.
                 </p>
             </div>
-            <div id="account" class="small flex-item">welcome back</div>
+            <div id="account" class="small flex-item">
+                <div id="greeting" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+                    <p style="margin: 0; font-size: 20px; font-weight: 500;">Welcome back,</p>
+                    <p id="acct-name" style="margin: 0; font-size: 20px; font-weight: 700;">Bob</p>
+                </div>
+                <img id="acct-photo" src="" alt="your face" width="350" height="350">
+            </div>
         </div>
         <div id="notebook-div" class="shrink flex-div">
             <textarea id="notebook" class="big flex-item"></textarea>

@@ -3,7 +3,7 @@
 let cam_device, cam_devices
 let cam_device_labels = {}
 
-let camera, camSwapBtn, camCanvas, photo, photoBtn, backBtn, submitBtn, acctDiv, noteDiv, noteTxt
+let camera, camSwapBtn, camCanvas, photo, photoBtn, backBtn, submitBtn, acctDiv, noteDiv, noteTxt, acctPhoto, acctName
 const elesById = () => {
     camera = document.getElementById('camera')
     camSwapBtn = document.getElementById('swap-camera-btn')
@@ -15,6 +15,8 @@ const elesById = () => {
     acctDiv = document.getElementById('account-div')
     noteDiv = document.getElementById('notebook-div')
     noteTxt = document.getElementById('notebook')
+    acctPhoto = document.getElementById('acct-photo')
+    acctName = document.getElementById('acct-name')
 }
 
 const findCameras = () => {
@@ -80,6 +82,7 @@ const takePhoto = () => {
     )
     const data = camCanvas.toDataURL('image/png')
     photo.src = data
+    acctPhoto.src = data
 }
 
 let loginAbort = new AbortController();
@@ -102,6 +105,8 @@ const confirmPhoto = () => {
             r = await res.json()
             switch (r.status) {
             case 'ok':
+                camera.srcObject = null
+                acctName.textContent = r.username
                 acctDiv.classList.remove('grow')
                 acctDiv.classList.add('shrink')
                 noteDiv.classList.remove('shrink')

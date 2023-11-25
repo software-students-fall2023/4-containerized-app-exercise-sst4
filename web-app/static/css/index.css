@@ -125,7 +125,7 @@ main {
     left: 0;
     margin: 10px;
     border-radius: 7px;
-    background-color: white;
+    background-color: gray;
 }
 
 .flash {
@@ -159,7 +159,7 @@ main {
 }
 
 #account-div.shrink {
-    height: 80px;
+    height: 90px;
 }
 
 #notebook-div.shrink {
@@ -254,6 +254,21 @@ p.info {
 
 #back-btn:hover {
     background-color: rgb(200, 200, 200);
+}
+
+/* ACCOUNT */
+
+.shrink > #account {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+}
+
+#acct-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 1000px;
 }
 
 /* NOTEBOOK */
