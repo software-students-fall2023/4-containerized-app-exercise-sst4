@@ -9,6 +9,7 @@ pylint = "*"
 black = "*"
 pymongo = "*"
 python-dotenv = "*"
+pillow = "*"
 
 [dev-packages]
 
