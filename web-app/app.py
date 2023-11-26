@@ -14,43 +14,31 @@ project_path = os.path.dirname(os.path.dirname(current_script_path))
 # Add the project directory to the sys.path
 sys.path.append(project_path)
 
-from database.db import DB # pylint: disable=wrong-import-position
-from machineLearningClient import recognition # pylint: disable=wrong-import-position
+import os # pylint: disable=wrong-import-position
 
-# sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
-# sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
+from pymongo import MongoClient # pylint: disable=wrong-import-position
+from dotenv import load_dotenv # pylint: disable=wrong-import-position
+
+load_dotenv()
+
+CXN = None
+DB = None
+
+uri = os.getenv("MONGODB_URI").format(
+        os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
+    )
+port = os.getenv("MONGODB_PORT")
+
+if port is None:
+    CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
+else:
+    CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
+DB = CXN[os.getenv("MONGODB_DATABASE")]
+from machineLearningClient import recognition # pylint: disable=wrong-import-position
 
 app = Flask(__name__)
 
 usersCollection = DB["users"] # Collection for users
-
-# @app.route("/login", methods=["POST"])
-# def login():
-#     """login. POST with photo in body."""
-#     # take image from body
-
-#     bodystr = request.get_data(cache=False, as_text=True, parse_form_data=False)
-#     imgdata = bodystr.split(";")[1].split(",")[1]
-#     # use with PIL:
-#     with Image.open(BytesIO(b64decode(imgdata))) as im:
-#         print(im.size)
-#         # im.show()
-
-#     # @TODO send image to ML client
-#     sleep(2)
-
-#     # dummy return @TODO
-#     status = "ok"
-#     username = "TestUser123"
-#     sid = "132uygsfd76f12"
-#     content = "this is my private diary!!!\n~~~~\nI put all \
-#         my secrets here and they will be locked with my face."
-#     return {
-#         "status": status,
-#         "username": username,
-#         "sid": sid,
-#         "content": content,
-#     }
 
 @app.route("/") # Route for /
 
@@ -64,23 +52,10 @@ def register():
     '''Returns registration page.'''
     return render_template("register.html")
 
-# reference_image_path = get_user_data_two()
-# reference_image = face_recognition.api.load_image_file(reference_image_path)
-# reference_encoding = face_recognition.face_encodings(reference_image)[0]
-
 @app.route("/recognize", methods=["POST"]) # Post method for recognize
 def recognize_user_api():
     '''Returns ML client data from trying to recognize the user.'''
     try:
-        # image_binary = base64.b64encode(get_user_data_two.read()).decode('utf-8')
-
-        # # Insert the Base64-encoded image into MongoDB
-        # data = {'image': image_binary}
-        # usersCollection.insert_one(data)
-
-        # # data = {'image': image_binary}
-        # # usersCollection.insert_one(data)
-        # return jsonify({"image": "people"})
 
         data = request.get_json() # Recieves image from frontend
         image_data = data.get('image')

@@ -1,5 +1,5 @@
 FROM python:3.10.3-slim-bullseye
-WORKDIR /app
+WORKDIR /app/database
 
 RUN apt-get -y update
 RUN apt-get install -y --fix-missing \
@@ -25,6 +25,7 @@ RUN apt-get install -y --fix-missing \
     zip \
     && apt-get clean && rm -rf /tmp/* /var/tmp/*
 
-COPY requirements.txt /app/
+COPY requirements.txt /app/database
 RUN pip install -r requirements.txt
-COPY . /app
+EXPOSE 8000
+COPY . /app/database
