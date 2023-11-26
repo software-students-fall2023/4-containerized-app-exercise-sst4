@@ -219,15 +219,34 @@ p.info {
 	font-weight: 600;
 }
 
+#registration-form {
+	padding: 7px;
+	border: none;
+	border-radius: 7px;
+	font-size: 25px;
+	font-weight: 600;
+	width: auto;
+	color: white;
+	background-color: var(--fb-blue);
+}
+
+#registration-form > input {
+	width: 100px;
+}
+
 #take-photo,
-#submit {
+#submit,
+#register,
+#register-confirm {
 	flex-grow: 1;
 	color: white;
 	background-color: var(--fb-blue);
 }
 
 #take-photo:hover,
-#submit:hover {
+#submit:hover,
+#register:hover,
+#register-confirm:hover {
 	background-color: #637db8;
 }
 
@@ -240,7 +259,11 @@ p.info {
 }
 
 #submit:disabled,
-#submit:disabled:hover {
+#submit:disabled:hover,
+#register:disabled,
+#register:disabled:hover,
+#register-confirm:disabled,
+#register-confirm:disabled:hover {
 	cursor: not-allowed;
 	background-color: dimgray;
 }

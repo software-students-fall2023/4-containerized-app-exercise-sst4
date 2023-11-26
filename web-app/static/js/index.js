@@ -9,6 +9,9 @@
 		photoBtn,
 		backBtn,
 		submitBtn,
+		registerBtn,
+		registrationForm,
+		registerConfirmBtn,
 		acctDiv,
 		noteDiv,
 		noteTxt,
@@ -23,6 +26,9 @@
 		photoBtn = document.getElementById("take-photo");
 		backBtn = document.getElementById("back-btn");
 		submitBtn = document.getElementById("submit");
+		registerBtn = document.getElementById("register");
+		registrationForm = document.getElementById("registration-form");
+		registerConfirmBtn = document.getElementById("register-confirm");
 		acctDiv = document.getElementById("account-div");
 		noteDiv = document.getElementById("notebook-div");
 		noteTxt = document.getElementById("notebook");
@@ -132,6 +138,7 @@
 			// 				noteTxt.value = r.content;
 			// 				break;
 			// 			default:
+
 			// 				console.warn(`Unknown login response status: ${r.status}`);
 			// 		}
 			// 	})
@@ -150,19 +157,65 @@
 		};
 	};
 
+	const registerButton = () => {
+		registerBtn.onclick = () => {
+			messageContainer.style.display = "none";
+
+			registerBtn.style.display = "none";
+			registerConfirmBtn.style.display = "block";
+			registerConfirmBtn.disabled = true;
+			registrationForm.elements["name"].value = "";
+			registrationForm.style.display = "block";
+		};
+		registrationForm.onkeyup = () => {
+			if (registrationForm.elements["name"].value == "") {
+				registerConfirmBtn.disabled = true;
+			} else {
+				registerConfirmBtn.disabled = false;
+			}
+		};
+		registerConfirmBtn.onclick = () => {
+			registerConfirmBtn.textContent = "...";
+
+			const dotdotdot = setInterval(() => {
+				registerConfirmBtn.textContent = ".".repeat((submitBtn.textContent.length % 3) + 1);
+			}, 500);
+
+			userName = registrationForm.elements["name"].value;
+			fetch("/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name: userName, image: photo.src }),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					clearInterval(dotdotdot);
+					registerConfirmBtn.disabled = true;
+					registrationForm.style.display = "none";
+					registerConfirmBtn.textContent = "Added!";
+				})
+				.catch((error) => {
+					console.error("Error sending image data to the backend:", error);
+					clearInterval(dotdotdot);
+					registerConfirmBtn.disabled = true;
+					registrationForm.style.display = "none";
+					registerConfirmBtn.textContent = "Something went wrong.";
+				});
+		};
+	};
+
 	const setupPhoto = () => {
 		photoBtn.onclick = () => {
-			console.log("take photo");
 			takePhoto();
 			photo.classList.add("flash");
 			photo.style.display = "block";
 			photoBtn.style.display = "none";
 			backBtn.style.display = "block";
 			submitBtn.style.display = "block";
-			confirmPhoto();
 		};
 		backBtn.onclick = () => {
-			console.log("back");
 			if (submitBtn.disabled) loginAbort.abort();
 			photo.style.display = "none";
 			photo.classList.remove("flash");
@@ -172,9 +225,14 @@
 			submitBtn.classList.remove("error");
 			submitBtn.textContent = "Continue";
 			submitBtn.disabled = false;
+			registerBtn.style.display = "none";
+			registerConfirmBtn.style.display = "none";
+			registrationForm.style.display = "none";
+			messageContainer.style.display = "block";
 			messageContainer.textContent = "Result of your photo analysis will appear here.";
 		};
-		// confirmPhoto();
+		confirmPhoto();
+		registerButton();
 	};
 
 	const init = () => {
@@ -186,7 +244,6 @@
 	};
 
 	function sendImageData(imageData) {
-		console.log("send data");
 		const dotdotdot = setInterval(() => {
 			submitBtn.textContent = ".".repeat((submitBtn.textContent.length % 3) + 1);
 		}, 500);
@@ -206,68 +263,27 @@
 				messageContainer.textContent = message;
 
 				clearInterval(dotdotdot);
+				submitBtn.style.display = "none";
 
 				if (message == "Face Not Recognized") {
-					submitBtn.textContent = "Register?";
-					submitBtn.disabled = false;
+					registerBtn.style.display = "block";
+					registerBtn.textContent = "Register?";
+					registerBtn.disabled = false;
 				} else if (message == "No faces found in the captured image.") {
-					submitBtn.textContent = "No faces :(";
-					submitBtn.disabled = true;
+					registerBtn.style.display = "block";
+					registerBtn.textContent = "No faces :(";
+					registerBtn.disabled = true;
+				} else {
+					// Face Recognized
+					registerBtn.style.display = "block";
+					registerBtn.textContent = "Welcome Back!";
+					registerBtn.disabled = true;
 				}
 			})
 			.catch((error) => {
 				console.error("Error sending image data to the backend:", error);
 			});
 	}
-
-	const setupMachineLearning = () => {
-		const camera = document.getElementById("camera");
-		const camCanvas = document.getElementById("cam-canvas");
-		const photoBtn = document.getElementById("take-photo");
-
-		let stream;
-
-		navigator.mediaDevices
-			.getUserMedia({ video: true })
-			.then((userStream) => {
-				camera.srcObject = userStream;
-				stream = userStream; // Assign userStream to the global variable
-			})
-			.catch((error) => {
-				console.error("Error accessing camera:", error);
-			});
-
-		photoBtn.onclick = () => {
-			const context = camCanvas.getContext("2d");
-
-			context.drawImage(camera, 0, 0, camCanvas.width, camCanvas.height);
-
-			const imageDataURL = camCanvas.toDataURL("image/jpeg");
-
-			sendImageData(imageDataURL);
-		};
-
-		photoBtn.addEventListener("click", () => {});
-
-		function sendImageData(imageData) {
-			fetch("/recognize", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ image: imageData }),
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					const message = data.message;
-					document.getElementById("message-container").innerHTML = `<p>${message}</p>`;
-					console.log("Response from backend:", data);
-				})
-				.catch((error) => {
-					console.error("Error sending image data to the backend:", error);
-				});
-		}
-	};
 
 	if (document.readyState !== "loading") init();
 	else window.addEventListener("load", init);
