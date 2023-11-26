@@ -1,3 +1,4 @@
 FROM mongo:latest
 EXPOSE 27017
-CMD ["mongod"]
+RUN python -m unittest ./tests/*
+CMD ["mongod", "db.py"]
