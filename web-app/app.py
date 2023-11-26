@@ -1,18 +1,10 @@
-# app.py
-
+"""
+Web app for the face recognition project.
+"""
 import os
-import requests
-import base64
-
-from time import sleep
-from base64 import b64decode
-from flask import Flask, render_template, request, jsonify
-from PIL import Image
-from io import BytesIO
-import io
-import face_recognition
-from bson.binary import Binary
 import sys
+
+from flask import Flask, render_template, request, jsonify
 
 current_script_path = os.path.abspath(__file__)
 
@@ -22,21 +14,14 @@ project_path = os.path.dirname(os.path.dirname(current_script_path))
 # Add the project directory to the sys.path
 sys.path.append(project_path)
 
-# sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
+from machineLearningClient import recognition # pylint: disable=wrong-import-position
+from database.db import DB # pylint: disable=wrong-import-position
 
-from machineLearningClient import recognition
-from database.db import db
+# sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
 
 app = Flask(__name__)
 
-usersCollection = db["users"] # Collection for users
-
-
-# @app.route("/")
-# def index():
-#     """main page (only page)"""
-#     return render_template("index.html")
-
+usersCollection = DB["users"] # Collection for users
 
 # @app.route("/login", methods=["POST"])
 # def login():
@@ -66,35 +51,16 @@ usersCollection = db["users"] # Collection for users
 #         "content": content,
 #     }
 
-#-------------------------------------------------------------------------------------------------------------------------
-
-# def get_user_data():
-#     # image_path = os.path.join(app.static_folder, "richard.jpg")
-    
-#     # with open(image_path, "rb") as image_file:
-#     #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-    
-#     # return base64_image
-#     image_path = os.path.join(app.static_folder, "richard.jpg")
-#     return image_path
-
-# def get_user_data_two():
-#     # image_path = os.path.join(app.static_folder, "richard.jpg")
-    
-#     # with open(image_path, "rb") as image_file:
-#     #     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-    
-#     # return base64_image
-#     image_path = os.path.join(app.static_folder, "obama.jpg")
-#     image = Image.open(image_path)
-#     return image_path
-
-
 @app.route("/") # Route for /
+
 def index():
+    '''Returns index page.'''
     return render_template("index.html")
+
 @app.route("/register") # Route for Register
+
 def register():
+    '''Returns registration page.'''
     return render_template("register.html")
 
 # reference_image_path = get_user_data_two()
@@ -103,6 +69,7 @@ def register():
 
 @app.route("/recognize", methods=["POST"]) # Post method for recognize
 def recognize_user_api():
+    '''Returns ML client data from trying to recognize the user.'''
     try:
         # image_binary = base64.b64encode(get_user_data_two.read()).decode('utf-8')
 
@@ -121,11 +88,12 @@ def recognize_user_api():
 
         return jsonify({"message": results})
 
-    except Exception as e:
+    except Exception as e: # pylint: disable=broad-except
         return jsonify({'error': str(e)})
-    
+
 @app.route("/register", methods=["POST"])
 def register_user():
+    '''Registers the user to the database.'''
     req = request.get_json() # Recieves name and image from user
     image_data = req["image"]
     name_data = req["name"]
