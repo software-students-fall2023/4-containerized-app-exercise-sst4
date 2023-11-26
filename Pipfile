@@ -9,6 +9,11 @@ pylint = "*"
 black = "*"
 pymongo = "*"
 python-dotenv = "*"
+pillow = "*"
+colorama = "*"
+tomli = "*"
+typing-extensions = "*"
+dill = "*"
 
 [dev-packages]
 
