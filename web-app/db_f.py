@@ -19,7 +19,9 @@ def load_uri():
     uri = os.getenv("MONGODB_URI").format(
         os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
     )
-    port = int(os.getenv("MONGODB_PORT"))
+    port = os.getenv("MONGODB_PORT")
+    if port is not None:
+        port = int(port)
 
     return [uri, port]
 
