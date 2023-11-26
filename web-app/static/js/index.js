@@ -118,42 +118,6 @@
 			submitBtn.textContent = "...";
 
 			sendImageData(photo.src);
-
-			// fetch("/login", {
-			// 	method: "POST",
-			// 	body: photo.src,
-			// 	signal: loginAbort.signal,
-			// })
-			// 	.then(async (res) => {
-			// 		clearInterval(dotdotdot);
-			// 		r = await res.json();
-			// 		switch (r.status) {
-			// 			case "ok":
-			// 				camera.srcObject = null;
-			// 				acctName.textContent = r.username;
-			// 				acctDiv.classList.remove("grow");
-			// 				acctDiv.classList.add("shrink");
-			// 				noteDiv.classList.remove("shrink");
-			// 				noteDiv.classList.add("grow");
-			// 				noteTxt.value = r.content;
-			// 				break;
-			// 			default:
-
-			// 				console.warn(`Unknown login response status: ${r.status}`);
-			// 		}
-			// 	})
-			// 	.catch((err) => {
-			// 		clearInterval(dotdotdot);
-			// 		submitBtn.textContent = "Continue";
-			// 		submitBtn.disabled = false;
-			// 		if (loginAbort.signal.aborted) {
-			// 			console.log("Login cancelled.");
-			// 			loginAbort = new AbortController();
-			// 		} else {
-			// 			submitBtn.classList.add("error");
-			// 			console.error(`Error logging in: ${err}`);
-			// 		}
-			// 	});
 		};
 	};
 
