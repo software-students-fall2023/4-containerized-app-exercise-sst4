@@ -20,7 +20,7 @@ def load_uri():
     return [uri, port]
 
 
-def load_client(uri, port):
+def load_client(uri, port=None):
     if port is None:
         client = MongoClient(uri, serverSelectionTimeoutMS=3000)
     else:
@@ -29,7 +29,7 @@ def load_client(uri, port):
     return client
 
 
-def connect_docker(client):
+def connect_mongo(client):
     DB = None
 
     # Send a ping to confirm a successful connection
@@ -39,5 +39,6 @@ def connect_docker(client):
         print("Pinged your deployment. You successfully connected to MongoDB!")
     except Exception as e:  # pylint: disable=broad-except
         print(e)
+        DB = None
 
     return DB
