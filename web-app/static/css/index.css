@@ -1,0 +1,368 @@
+:root {
+	--fb-blue: #3c5898;
+	--login-wid: 350px;
+}
+
+body {
+	min-width: 300px;
+	background-color: white;
+	overflow: hidden;
+}
+
+/* HEADER w/ LOGO */
+
+header {
+	height: 60px;
+	margin: 15px 25px 35px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+#logo-icon,
+#logo-text {
+	font-family: "Tahoma";
+	font-weight: 800;
+	user-select: none;
+}
+
+#logo-text {
+	font-size: 40px;
+	color: var(--fb-blue);
+}
+
+#logo-icon {
+	position: relative;
+	width: 55px;
+	height: 55px;
+	margin-left: 10px;
+	border-radius: 13px;
+	background-color: var(--fb-blue);
+}
+
+#logo-icon-letter {
+	scale: 0.8 1.1;
+	position: absolute;
+	right: 4px;
+	bottom: -10px;
+	font-size: 58px;
+	color: white;
+}
+
+/* MAIN */
+
+main {
+	height: calc(100vh - 60px - 15px - 35px); /* minus header */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* WEBCAM STUFF */
+
+#camera-div {
+	aspect-ratio: 1 / 1;
+	width: var(--login-wid);
+	position: relative;
+	box-sizing: border-box;
+	padding: 5px;
+}
+
+#cam-wrapper {
+	aspect-ratio: 1 / 1;
+	width: calc(100% - 10px);
+	margin: 5px;
+	background-color: gray;
+	border-radius: 7px;
+	overflow: hidden;
+}
+
+#camera {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: filter 0.5s;
+}
+
+.cam-swapping {
+	filter: blur(10px);
+}
+
+#swap-btn-div {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
+
+#swap-camera-btn {
+	cursor: pointer;
+	display: block;
+	margin: 0;
+	padding: 3px 4px;
+	background-color: white;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	font-size: 12px;
+	white-space: nowrap;
+	opacity: 0.5;
+	transition: opacity 1s 1s;
+}
+
+#swap-camera-btn:hover {
+	opacity: 1;
+	transition: opacity 0.3s 0s;
+}
+
+#photo {
+	display: none;
+	width: calc(var(--login-wid) - 20px);
+	height: calc(var(--login-wid) - 20px);
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 10px;
+	border-radius: 7px;
+	background-color: gray;
+}
+
+.flash {
+	animation: flash 1s ease-out 0.15s 1 normal both;
+}
+
+@keyframes flash {
+	from {
+		filter: contrast(0) brightness(2);
+		scale: 1.05;
+	}
+	to {
+		filter: contrast(1) brightness(1);
+	}
+}
+
+/* SHOW AND HIDE */
+
+.flex-div {
+	flex-grow: 1;
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 700px;
+	padding: 0px 30px;
+}
+
+.flex-div.shrink {
+	flex-grow: 0;
+	transition: 0.1s cubic-bezier(0.13, 0.84, 0.33, 0.98);
+}
+
+#account-div.shrink {
+	height: 90px;
+}
+
+#notebook-div.shrink {
+	height: 60px;
+}
+
+.flex-item {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.small.flex-item {
+	border: 5px dashed dimgray;
+}
+
+.big.flex-item {
+	border: 5px dashed var(--fb-blue);
+}
+
+.grow > .small.flex-item,
+.shrink > .big.flex-item {
+	display: none;
+}
+
+/* LOGIN */
+
+.grow > #login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+p.info {
+	margin: 0;
+	padding: 15px 10px 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+#btn-div {
+	width: calc(var(--login-wid) - 20px);
+	display: flex;
+	justify-content: space-between;
+	gap: 15px;
+}
+
+.login-btn {
+	cursor: pointer;
+	padding: 7px;
+	border: none;
+	border-radius: 7px;
+	font-size: 25px;
+	font-weight: 600;
+}
+
+#registration-form {
+	padding: 7px;
+	border: none;
+	border-radius: 7px;
+	font-size: 25px;
+	font-weight: 600;
+	width: auto;
+	color: white;
+	background-color: var(--fb-blue);
+}
+
+#registration-form > input {
+	width: 100px;
+}
+
+#take-photo,
+#submit,
+#register,
+#register-confirm {
+	flex-grow: 1;
+	color: white;
+	background-color: var(--fb-blue);
+}
+
+#take-photo:hover,
+#submit:hover,
+#register:hover,
+#register-confirm:hover {
+	background-color: #637db8;
+}
+
+#submit.error {
+	background-color: rgb(160, 53, 53);
+}
+
+#submit.error:hover {
+	background-color: rgb(201, 79, 79);
+}
+
+#submit:disabled,
+#submit:disabled:hover,
+#register:disabled,
+#register:disabled:hover,
+#register-confirm:disabled,
+#register-confirm:disabled:hover {
+	cursor: not-allowed;
+	background-color: dimgray;
+}
+
+#back-btn {
+	width: 30%;
+	min-width: 75px;
+	color: rgb(35, 35, 35);
+	background-color: rgb(220, 220, 220);
+}
+
+#back-btn:hover {
+	background-color: rgb(200, 200, 200);
+}
+
+/* ACCOUNT */
+
+.shrink > #account {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 20px;
+}
+
+#acct-photo {
+	width: 60px;
+	height: 60px;
+	border-radius: 1000px;
+}
+
+/* NOTEBOOK */
+
+.shrink > #notebook-cover {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#notebook-cover {
+	color: dimgray;
+	font-weight: 700;
+	font-size: 30px;
+}
+
+#notebook {
+	box-sizing: border-box;
+	padding: 10px 15px;
+	background-color: transparent;
+	resize: none;
+	font-family: "Indie Flower", cursive;
+	font-weight: 500;
+	font-size: 25px;
+	line-height: 42px;
+	overflow: scroll;
+	background: repeating-linear-gradient(white, white 40px, #b4baf9 41px, #b4baf9 42px) 0px 8px local;
+}
+
+#notebook::selection {
+	background-color: var(--fb-blue);
+	color: white;
+}
+
+#notebook:focus {
+	outline: none;
+}
+
+#bottom {
+	height: 20px;
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 500px) {
+	:root {
+		--login-wid: 100%;
+	}
+
+	header {
+		align-items: center;
+	}
+
+	p.info {
+		font-size: 20px;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	#logo-text {
+		font-size: 30px;
+	}
+}
+
+/* lines are broken in Firefox.... for 10 years.......*/
+@-moz-document url-prefix() {
+	#notebook {
+		background: none;
+	}
+
+	#notebook:focus {
+		background: none;
+	}
+}
