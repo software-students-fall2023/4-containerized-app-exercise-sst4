@@ -6,7 +6,7 @@ import cv2
 import face_recognition
 import numpy as np
 
-from db import DB
+from database.db import DB
 
 def recognize_user(user): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
