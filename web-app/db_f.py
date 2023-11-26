@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 def load_uri():
     """
     Creates a uri from the .env and optionally a port and returns them as a string array.
-    @return: An array of string where element 0 is the uri with the user and password and element 1 is the port.
+    @return: An array of string where element 0 is the uri and element 1 is the port.
     """
     load_dotenv()
 
