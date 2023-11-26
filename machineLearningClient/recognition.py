@@ -6,7 +6,7 @@ import cv2
 import face_recognition
 import numpy as np
 
-from database.db import DB
+from database.db import db
 
 def recognize_user(user): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
@@ -26,7 +26,7 @@ def recognize_user(user): # pylint: disable=too-many-locals
     if not face_encodings:
         return 'No faces found in the captured image.'
 
-    users_collection = DB["users"]
+    users_collection = db["users"]
     users_find = users_collection.find({}) # Finds all users
     for document in users_find: #Cycles through all users
         reference_image = document["image"] # Gets the image for each user

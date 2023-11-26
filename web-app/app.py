@@ -15,13 +15,13 @@ project_path = os.path.dirname(os.path.dirname(current_script_path))
 sys.path.append(project_path)
 
 from machineLearningClient import recognition # pylint: disable=wrong-import-position
-from database.db import DB # pylint: disable=wrong-import-position
+from database.db import db # pylint: disable=wrong-import-position
 
 # sys.path.append('/Users/richardli/Desktop/swe/4-containerized-app-exercise-sst4')
 
 app = Flask(__name__)
 
-usersCollection = DB["users"] # Collection for users
+usersCollection = db["users"] # Collection for users
 
 # @app.route("/login", methods=["POST"])
 # def login():

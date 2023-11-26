@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  database:
+    build: ./database
+    container_name: database
+    image: sst4/database
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGO_DBNAME=database1
+    ports:
+      - '8085:8085'
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+  machine_learning_client:
+    build: ./machineLearningClient
+    container_name: machineLearningClient
+    image: sst4/machine_learning_client
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGO_DBNAME=database1
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+  web-app:
+    build: ./web-app
+    container_name: web-app
+    image: sst4/web-app
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGO_DBNAME=database1
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+  mongodb:
+    build: ./mongodb
+    container_name: mongodb
+    image: sst4/mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - backend
+
+volumes:
+  dbdata:
+
+networks:
+  backend:

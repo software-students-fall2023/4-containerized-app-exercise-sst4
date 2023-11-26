@@ -22,27 +22,27 @@ def test_port_loads():
 
 # tests for load_client()
 def test_client_connects_no_port():
-    uri = db_f.load_uri()[0]
+    uri = "mongo"
     cxn = db_f.load_client(uri)
     assert str(cxn) == ("MongoClient(host=['mongo:27017'], document_class=dict, tz_aware=False, connect=True, serverselectiontimeoutms=3000)")
 
 def test_client_connects_port():
-    load = db_f.load_uri()
-    cxn = db_f.load_client(load[0], load[1])
+    cxn = db_f.load_client("mongo", 27017)
     assert str(cxn) == ("MongoClient(host=['mongo:27017'], document_class=dict, tz_aware=False, connect=True, serverselectiontimeoutms=3000)")
 
 # tests for connect_mongo()
 def test_connect():
-    load = db_f.load_uri()
-    cxn = db_f.load_client(load[0], load[1])
+    cxn = db_f.load_client("mongodb://mongo:27017/", 27017)
     db = db_f.connect_mongo(cxn)
 
     assert db is not None
 
 def test_fail_connect():
-    # TODO: Different common fails
-    load = db_f.load_uri()
-    cxn = db_f.load_client(load[0], load[1])
+    cxn = db_f.load_client("bad", 27017)
     db = db_f.connect_mongo(cxn)
 
     assert db is None
+
+def test_connects_from_docker():
+    from database import db
+    assert db is not None

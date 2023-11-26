@@ -1,1 +1,1 @@
-Code related to the database goes in this folder.
+Code for testing database connection.
