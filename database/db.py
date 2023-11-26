@@ -4,5 +4,14 @@ Connects to the MongoDB database
 
 import db_f
 
-load = db_f.load_uri()
-db_f.connect_docker(db_f.load_client(load[0], load[1]))
+cxn = None
+db = None
+def connect():
+    global cxn, db
+    if cxn is not None:
+        return
+
+    load = db_f.load_uri()
+    cxn = db_f.load_client(load[0], load[1])
+    db = db_f.connect_docker()
+
