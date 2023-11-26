@@ -13,7 +13,7 @@ def connect():
     Connect to a MongoDB database from the information stored in the .env
     """
     global CXN, DB
-    if CXN is not None:
+    if cxn is not None:
         return
 
     load = db_f.load_uri()
