@@ -11,6 +11,7 @@ RUN apt-get update \
         libopenblas-dev \
         liblapack-dev \
         libx11-dev \
+        libgl1-mesa-glx libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . /app/machineLearningClient
