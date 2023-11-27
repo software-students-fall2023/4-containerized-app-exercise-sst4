@@ -29,11 +29,14 @@ else:
     CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
 DB = CXN[os.getenv("MONGODB_DATABASE")]
 
-# recognize_app = Flask(__name__)
+recognize_app = Flask(__name__)
 
-# @recognize_app.route("/recognize", methods=["POST"])
-def recognize_user(user): # pylint: disable=too-many-locals
+@recognize_app.route("/recognize", methods=["POST"])
+def recognize_user(): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
+
+    data = request.get_json() # Recieves image from frontend
+    user = data.get('image')
 
     image_bytes = base64.b64decode(user.split(',')[1])
 
@@ -48,7 +51,7 @@ def recognize_user(user): # pylint: disable=too-many-locals
     face_encodings = face_recognition.face_encodings(rgb_frame, face_locations) #new
 
     if not face_encodings:
-        return 'No faces found in the captured image.'#jsonify({"message":'No faces found in the captured image.'})
+        return jsonify({"message":'No faces found in the captured image.'})
 
     users_collection = DB["users"]
     users_find = users_collection.find({}) # Finds all users
@@ -73,5 +76,8 @@ def recognize_user(user): # pylint: disable=too-many-locals
         if results[0]: # Should only be here if match
             name = document["name"]
             message = "Face Recognized! Hello " + name
-            return message#jsonify({"message": message})
-    return "Face not recognized"#jsonify({"message": "Face Not Recognized"}) # Not recognized
+            return jsonify({"message": message})
+    return jsonify({"message": "Face Not Recognized"}) # Not recognized
+
+if __name__ == "__main__":
+    recognize_app.run(debug=True, host="0.0.0.0", port=6000)

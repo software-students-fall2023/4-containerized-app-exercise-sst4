@@ -8,7 +8,7 @@ COPY . /app/web-app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 6000
+EXPOSE 5000
 
 ENV MONGODB_URI="mongodb://mongo:27017/"
 ENV MONGODB_DATABASE="database1"

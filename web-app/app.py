@@ -61,14 +61,14 @@ def recognize_user_api():
         data = request.get_json() # Recieves image from frontend
         image_data = data.get('image')
 
-        ml_client_url = "http://machine-learning-client:5001/recognize" #new
+        ml_client_url = "http://machine_learning_client:6000/recognize" #new
         ml_client_response = requests.post(ml_client_url, json={"image": image_data}) #new
 
-        results = ml_client_response.json().get("message", "Error in ML client response") # new
+        # results = ml_client_response.json().get("message", "Error in ML client response") # new
 
         # results = recognition.recognize_user(image_data) # passes the users image to recognition
 
-        return jsonify({"message": results})
+        return ml_client_response
 
     except Exception as e: # pylint: disable=broad-except
         return jsonify({'error': str(e)})
