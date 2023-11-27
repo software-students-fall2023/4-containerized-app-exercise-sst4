@@ -6,6 +6,8 @@ import cv2
 import face_recognition
 import numpy as np
 
+from flask import Flask, request, jsonify
+
 import os
 
 from pymongo import MongoClient
@@ -27,9 +29,12 @@ else:
     CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
 DB = CXN[os.getenv("MONGODB_DATABASE")]
 
+# recognize_app = Flask(__name__)
+
+# @recognize_app.route("/recognize", methods=["POST"])
 def recognize_user(user): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
-    # Takes out the data:image/jpeg;base64, since frontend sends as jpeg
+
     image_bytes = base64.b64decode(user.split(',')[1])
 
     image_np = np.frombuffer(image_bytes, dtype=np.uint8) #new
@@ -43,7 +48,7 @@ def recognize_user(user): # pylint: disable=too-many-locals
     face_encodings = face_recognition.face_encodings(rgb_frame, face_locations) #new
 
     if not face_encodings:
-        return 'No faces found in the captured image.'
+        return 'No faces found in the captured image.'#jsonify({"message":'No faces found in the captured image.'})
 
     users_collection = DB["users"]
     users_find = users_collection.find({}) # Finds all users
@@ -62,15 +67,11 @@ def recognize_user(user): # pylint: disable=too-many-locals
         ref_face_locations = face_recognition.face_locations(rgb_frame) #new
         reference_encodings = face_recognition.face_encodings(rgb_frame, ref_face_locations) #new
 
-        # reference_np = face_recognition.api.load_image_file(io.BytesIO(reference_bytes))
-
-        # reference_encodings = face_recognition.face_encodings(reference_np)
-        # print(len(reference_encodings[0]))
-
         results = face_recognition.compare_faces(reference_encodings, face_encodings[0],
                                                  tolerance=0.4)
 
         if results[0]: # Should only be here if match
             name = document["name"]
-            return "Face Recognized! Hello " + name # Returns name from mongo
-    return "Face Not Recognized" # Not recognized
+            message = "Face Recognized! Hello " + name
+            return message#jsonify({"message": message})
+    return "Face not recognized"#jsonify({"message": "Face Not Recognized"}) # Not recognized

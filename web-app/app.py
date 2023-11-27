@@ -3,6 +3,7 @@ Web app for the face recognition project.
 """
 import os
 import sys
+import requests #new 
 
 from flask import Flask, render_template, request, jsonify
 
@@ -34,7 +35,7 @@ if port is None:
 else:
     CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
 DB = CXN[os.getenv("MONGODB_DATABASE")]
-from machineLearningClient import recognition # pylint: disable=wrong-import-position
+# from machineLearningClient import recognition # pylint: disable=wrong-import-position
 
 app = Flask(__name__)
 
@@ -60,7 +61,12 @@ def recognize_user_api():
         data = request.get_json() # Recieves image from frontend
         image_data = data.get('image')
 
-        results = recognition.recognize_user(image_data) # passes the users image to recognition
+        ml_client_url = "http://machine-learning-client:5001/recognize" #new
+        ml_client_response = requests.post(ml_client_url, json={"image": image_data}) #new
+
+        results = ml_client_response.json().get("message", "Error in ML client response") # new
+
+        # results = recognition.recognize_user(image_data) # passes the users image to recognition
 
         return jsonify({"message": results})
 
@@ -76,7 +82,7 @@ def register_user():
     data = {'image': image_data, "name": name_data}
     usersCollection.insert_one(data) # Pushes it to mongoDB
 
-    return jsonify({"world": "hello"}) # Dummy response for now
+    return jsonify({"world": "hello"}) # Dummy response for now change here plz
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
