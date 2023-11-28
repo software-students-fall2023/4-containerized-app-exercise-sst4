@@ -31,10 +31,10 @@ DB = CXN[os.getenv("MONGODB_DATABASE")]
 
 recognize_app = Flask(__name__)
 
-@recognize_app.route("/recognize", methods=["POST"])
+@recognize_app.route("/test", methods=["POST"])
 def recognize_user(): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
-
+    return jsonify({"message": "Face Not Recognized"})
     data = request.get_json() # Recieves image from frontend
     user = data.get('image')
 

@@ -2,7 +2,7 @@ FROM python:3.10.3-slim-bullseye
 
 WORKDIR /app/machineLearningClient
 
-COPY requirements.txt /app/machineLearningClient/
+COPY requirements.txt ./
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -14,9 +14,9 @@ RUN apt-get update \
         libgl1-mesa-glx libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /app/machineLearningClient
-
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . /app/machineLearningClient
 
 EXPOSE 6000
 
