@@ -6,7 +6,7 @@ import cv2
 import face_recognition
 import numpy as np
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 
 import os
 
@@ -34,7 +34,7 @@ recognize_app = Flask(__name__)
 @recognize_app.route("/test", methods=["POST"])
 def recognize_user(): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
-    return jsonify({"message": "Face Not Recognized"})
+    
     data = request.get_json() # Recieves image from frontend
     user = data.get('image')
 
@@ -51,10 +51,18 @@ def recognize_user(): # pylint: disable=too-many-locals
     face_encodings = face_recognition.face_encodings(rgb_frame, face_locations) #new
 
     if not face_encodings:
-        return jsonify({"message":'No faces found in the captured image.'})
+        response = jsonify({"message":'No faces found in the captured image.'})
+        response.status_code = 200
+        return response
 
     users_collection = DB["users"]
     users_find = users_collection.find({}) # Finds all users
+
+    response = jsonify({"mesg": users_find})
+    response.status_code = 200 # or 400 or whatever
+    return response
+    
+
     for document in users_find: #Cycles through all users
         reference_image = document["image"] # Gets the image for each user
 
@@ -76,8 +84,14 @@ def recognize_user(): # pylint: disable=too-many-locals
         if results[0]: # Should only be here if match
             name = document["name"]
             message = "Face Recognized! Hello " + name
-            return jsonify({"message": message})
-    return jsonify({"message": "Face Not Recognized"}) # Not recognized
+            response = jsonify({"message": message})
+            response.status_code = 200
+            return response
+            # return jsonify({"message": message})
+    # return jsonify({"message": "Face Not Recognized"}) # Not recognized
+    response = jsonify({"message": "Face Not Recognized"})
+    response.status_code = 200
+    return response
 
 if __name__ == "__main__":
     recognize_app.run(debug=True, host="0.0.0.0", port=6000)

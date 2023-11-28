@@ -61,8 +61,10 @@ def recognize_user_api():
         image_data = data.get('image')
 
         ml_client_url = "http://machine_learning_client:6000/test" #new
-        ml_client_response = requests.post(ml_client_url, json={"image": image_data}) #new problem
-        return jsonify({'error': ml_client_response})
+        headers = {"Content-Type": "application/json"}
+        ml_client_response = requests.post(ml_client_url, json={"image": image_data}, headers = headers) #new problem
+        return {'error': ml_client_response.json()}
+        # return jsonify({'error': ml_client_response})
 
 
         # results = ml_client_response.json().get("message", "Error in ML client response") # new
