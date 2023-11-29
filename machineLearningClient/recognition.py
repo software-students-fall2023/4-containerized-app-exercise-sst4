@@ -13,10 +13,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mongo_uri = "mongodb://mongodb:27017/"
-database_name = "database1"
+MONGO_URI = "mongodb://mongodb:27017/"
 
-client = MongoClient(mongo_uri)
+client = MongoClient(MONGO_URI)
 db = client["database1"]
 users = db['users']
 

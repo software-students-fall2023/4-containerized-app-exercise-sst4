@@ -41,7 +41,8 @@ def recognize_user_api():
 
         ml_client_url = "http://machine_learning_client:6000/test"
         headers = {"Content-Type": "application/json"}
-        ml_client_response = requests.post(ml_client_url, json={"image": image_data}, headers = headers)
+        ml_client_response = requests.post(ml_client_url, json={"image": image_data}, 
+                                           headers = headers, timeout=10)
 
         return ml_client_response.json()
 
@@ -53,7 +54,7 @@ def register_user():
     '''Registers the user to the database.'''
     try:
         req = request.get_json()
-        
+
         image_data = req["image"]
         name_data = req["name"]
         data = {'image': image_data, 'name': name_data}
