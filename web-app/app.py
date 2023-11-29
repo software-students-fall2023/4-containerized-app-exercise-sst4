@@ -26,6 +26,7 @@ db = client["database1"]
 
 app = Flask(__name__)
 
+
 @app.route("/")  # Route for /
 def index():
     """Returns index page."""
