@@ -25,7 +25,7 @@ recognize_app = Flask(__name__)
 def recognize_user(): # pylint: disable=too-many-locals
     '''Returns ML client data from trying to recognize the user.'''
     users_find = users.find({})
-    
+
     data = request.get_json()
     user = data.get('image')
 

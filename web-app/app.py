@@ -41,7 +41,7 @@ def recognize_user_api():
 
         ml_client_url = "http://machine_learning_client:6000/test"
         headers = {"Content-Type": "application/json"}
-        ml_client_response = requests.post(ml_client_url, json={"image": image_data}, 
+        ml_client_response = requests.post(ml_client_url, json={"image": image_data},
                                            headers = headers, timeout=10)
 
         return ml_client_response.json()
