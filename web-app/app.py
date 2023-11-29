@@ -9,24 +9,19 @@ from flask import Flask, render_template, request, jsonify
 
 current_script_path = os.path.abspath(__file__)
 
-# Navigate to the project directory
 project_path = os.path.dirname(os.path.dirname(current_script_path))
 
-# Add the project directory to the sys.path
 sys.path.append(project_path)
-
-import os # pylint: disable=wrong-import-position
 
 from pymongo import MongoClient # pylint: disable=wrong-import-position
 from dotenv import load_dotenv # pylint: disable=wrong-import-position
 
 load_dotenv()
 
-mongo_uri = "mongodb://mongodb:27017/"
-database_name = "database1"
+MONGO_URI = "mongodb://mongodb:27017/"
 
 # Connect to MongoDB
-client = MongoClient(mongo_uri)
+client = MongoClient(MONGO_URI)
 db = client["database1"]
 
 app = Flask(__name__)
@@ -47,7 +42,7 @@ def recognize_user_api():
         ml_client_url = "http://machine_learning_client:6000/test"
         headers = {"Content-Type": "application/json"}
         ml_client_response = requests.post(ml_client_url, json={"image": image_data}, headers = headers)
-        
+
         return ml_client_response.json()
 
     except Exception as e: # pylint: disable=broad-except

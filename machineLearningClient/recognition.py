@@ -6,9 +6,7 @@ import cv2
 import face_recognition
 import numpy as np
 
-from flask import Flask, request, jsonify, Response
-
-import os
+from flask import Flask, request, jsonify
 
 from pymongo import MongoClient
 from dotenv import load_dotenv
