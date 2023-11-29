@@ -25,16 +25,24 @@ load_dotenv()
 CXN = None
 DB = None
 
-uri = os.getenv("MONGODB_URI").format(
-        os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
-    )
-port = os.getenv("MONGODB_PORT")
+mongo_container_address = "mongodb"
 
-if port is None:
-    CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
-else:
-    CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
+# Construct the MongoDB URI
+uri = f"mongodb://{mongo_container_address}:27017/"
+
+CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
 DB = CXN[os.getenv("MONGODB_DATABASE")]
+
+# uri = os.getenv("MONGODB_URI").format(
+#         os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
+#     )
+# port = os.getenv("MONGODB_PORT")
+
+# if port is None:
+#     CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
+# else:
+#     CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
+# DB = CXN[os.getenv("MONGODB_DATABASE")]
 # from machineLearningClient import recognition # pylint: disable=wrong-import-position
 
 app = Flask(__name__)
@@ -63,7 +71,18 @@ def recognize_user_api():
         ml_client_url = "http://machine_learning_client:6000/test" #new
         headers = {"Content-Type": "application/json"}
         ml_client_response = requests.post(ml_client_url, json={"image": image_data}, headers = headers) #new problem
-        return {'error': ml_client_response.json()}
+        
+        # mongo_uri = "mongodb://mongodb:27017/"
+        # database_name = "database1"
+
+        # Connect to MongoDB
+        # client = MongoClient(mongo_uri)
+        # db = client["database1"]
+
+        # response = jsonify({"message": db.list_collection_names()})
+        # response.status_code = 200
+        # return response
+        return ml_client_response.json()
         # return jsonify({'error': ml_client_response})
 
 
@@ -79,13 +98,25 @@ def recognize_user_api():
 @app.route("/register", methods=["POST"])
 def register_user():
     '''Registers the user to the database.'''
-    req = request.get_json() # Recieves name and image from user
-    image_data = req["image"]
-    name_data = req["name"]
-    data = {'image': image_data, "name": name_data}
-    usersCollection.insert_one(data) # Pushes it to mongoDB
+    try:
+        mongo_uri = "mongodb://mongodb:27017/"
+        database_name = "database1"
 
-    return jsonify({"world": "hello"}) # Dummy response for now change here plz
+        # Connect to MongoDB
+        client = MongoClient(mongo_uri)
+        db = client["database1"]
+
+        req = request.get_json() # Recieves name and image from user
+        
+        image_data = req["image"]
+        name_data = req["name"]
+        data = {'image': image_data, 'name': name_data}
+        db['users'].insert_one(data) # Pushes it to mongoDB
+
+        return jsonify({"world": "hello"}) # Dummy response for now, change here if needed
+    except Exception as e: # pylint: disable=broad-except
+        return jsonify({'error': str(e)})
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)

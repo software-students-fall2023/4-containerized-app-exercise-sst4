@@ -1,7 +1,6 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   machine_learning_client:
     build: ./machineLearningClient
     container_name: machineLearningClient
@@ -34,9 +33,12 @@ services:
   mongodb:
     build: ./mongodb
     container_name: mongodb
+    environment:
+      - MONGODB_URI=mongodb+srv://Richardli1793:Dog12345@cluster0.yxi9tc7.mongodb.net/database1
+      - MONGODB_DATABASE=database1
     image: sst4/mongodb
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - dbdata:/data/db
     networks:

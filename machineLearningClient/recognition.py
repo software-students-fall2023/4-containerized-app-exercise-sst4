@@ -18,15 +18,23 @@ load_dotenv()
 CXN = None
 DB = None
 
-uri = os.getenv("MONGODB_URI").format(
-        os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
-    )
-port = os.getenv("MONGODB_PORT")
+# uri = os.getenv("MONGODB_URI").format(
+#         os.getenv("MONGODB_USER"), os.getenv("MONGODB_PASSWORD")
+#     )
+# port = os.getenv("MONGODB_PORT")
 
-if port is None:
-    CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
-else:
-    CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
+# if port is None:
+#     CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
+# else:
+#     CXN = MongoClient(uri, port=port, serverSelectionTimeoutMS=3000)
+# DB = CXN[os.getenv("MONGODB_DATABASE")]
+
+mongo_container_address = "mongodb"
+
+# Construct the MongoDB URI
+uri = f"mongodb://{mongo_container_address}:27017/"
+
+CXN = MongoClient(uri, serverSelectionTimeoutMS=3000)
 DB = CXN[os.getenv("MONGODB_DATABASE")]
 
 recognize_app = Flask(__name__)
@@ -56,12 +64,15 @@ def recognize_user(): # pylint: disable=too-many-locals
         return response
 
     users_collection = DB["users"]
-    users_find = users_collection.find({}) # Finds all users
 
-    response = jsonify({"mesg": users_find})
-    response.status_code = 200 # or 400 or whatever
-    return response
-    
+    mongo_uri = "mongodb://mongodb:27017/"
+    database_name = "database1"
+
+    # Connect to MongoDB
+    client = MongoClient(mongo_uri)
+    db = client["database1"]
+    users = db['users']
+    users_find = users.find({}) # Finds all users
 
     for document in users_find: #Cycles through all users
         reference_image = document["image"] # Gets the image for each user
