@@ -57,7 +57,6 @@ def recognize_user_api():
 def register_user():
     '''Registers the user to the database.'''
     try:
-
         req = request.get_json()
         
         image_data = req["image"]
