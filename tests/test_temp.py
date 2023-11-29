@@ -1,5 +1,5 @@
 import pytest
 
     
-def temp():
+def test_Temp():
     assert 1 == 1
