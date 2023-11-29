@@ -13,8 +13,8 @@ project_path = os.path.dirname(os.path.dirname(current_script_path))
 
 sys.path.append(project_path)
 
-from pymongo import MongoClient # pylint: disable=wrong-import-position
-from dotenv import load_dotenv # pylint: disable=wrong-import-position
+from pymongo import MongoClient  # pylint: disable=wrong-import-position
+from dotenv import load_dotenv  # pylint: disable=wrong-import-position
 
 load_dotenv()
 
@@ -26,43 +26,45 @@ db = client["database1"]
 
 app = Flask(__name__)
 
-@app.route("/") # Route for /
-
+@app.route("/")  # Route for /
 def index():
-    '''Returns index page.'''
+    """Returns index page."""
     return render_template("index.html")
 
-@app.route("/recognize", methods=["POST"]) # Post method for recognize
+
+@app.route("/recognize", methods=["POST"])  # Post method for recognize
 def recognize_user_api():
-    '''Returns ML client data from trying to recognize the user.'''
+    """Returns ML client data from trying to recognize the user."""
     try:
-        data = request.get_json() # Recieves image from frontend
-        image_data = data.get('image')
+        data = request.get_json()  # Recieves image from frontend
+        image_data = data.get("image")
 
         ml_client_url = "http://machine_learning_client:6000/test"
         headers = {"Content-Type": "application/json"}
-        ml_client_response = requests.post(ml_client_url, json={"image": image_data},
-                                           headers = headers, timeout=10)
+        ml_client_response = requests.post(
+            ml_client_url, json={"image": image_data}, headers=headers, timeout=10
+        )
 
         return ml_client_response.json()
 
-    except Exception as e: # pylint: disable=broad-except
-        return jsonify({'error': str(e)})
+    except Exception as e:  # pylint: disable=broad-except
+        return jsonify({"error": str(e)})
+
 
 @app.route("/register", methods=["POST"])
 def register_user():
-    '''Registers the user to the database.'''
+    """Registers the user to the database."""
     try:
         req = request.get_json()
 
         image_data = req["image"]
         name_data = req["name"]
-        data = {'image': image_data, 'name': name_data}
-        db['users'].insert_one(data)
+        data = {"image": image_data, "name": name_data}
+        db["users"].insert_one(data)
 
         return jsonify({"message": "Face was added to database"})
-    except Exception as e: # pylint: disable=broad-except
-        return jsonify({'error': str(e)})
+    except Exception as e:  # pylint: disable=broad-except
+        return jsonify({"error": str(e)})
 
 
 if __name__ == "__main__":
