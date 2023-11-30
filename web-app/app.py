@@ -1,49 +1,71 @@
 """
-This is the app.py boilerplate
+Web app for the face recognition project.
 """
+import os
+import sys
+import requests
 
-from time import sleep
-from base64 import b64decode
-from io import BytesIO
-from PIL import Image
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+
+current_script_path = os.path.abspath(__file__)
+
+project_path = os.path.dirname(os.path.dirname(current_script_path))
+
+sys.path.append(project_path)
+
+from pymongo import MongoClient  # pylint: disable=wrong-import-position
+from dotenv import load_dotenv  # pylint: disable=wrong-import-position
+
+load_dotenv()
+
+MONGO_URI = "mongodb://mongodb:27017/"
+
+# Connect to MongoDB
+client = MongoClient(MONGO_URI)
+db = client["database1"]
 
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/")  # Route for /
 def index():
-    """main page (only page)"""
+    """Returns index page."""
     return render_template("index.html")
 
 
-@app.route("/login", methods=["POST"])
-def login():
-    """login. POST with photo in body."""
-    # take image from body
+@app.route("/recognize", methods=["POST"])  # Post method for recognize
+def recognize_user_api():
+    """Returns ML client data from trying to recognize the user."""
+    try:
+        data = request.get_json()  # Recieves image from frontend
+        image_data = data.get("image")
 
-    bodystr = request.get_data(cache=False, as_text=True, parse_form_data=False)
-    imgdata = bodystr.split(";")[1].split(",")[1]
-    # use with PIL:
-    with Image.open(BytesIO(b64decode(imgdata))) as im:
-        print(im.size)
-        # im.show()
+        ml_client_url = "http://machine_learning_client:6000/test"
+        headers = {"Content-Type": "application/json"}
+        ml_client_response = requests.post(
+            ml_client_url, json={"image": image_data}, headers=headers, timeout=10
+        )
 
-    # @TODO send image to ML client
-    sleep(2)
+        return ml_client_response.json()
 
-    # dummy return @TODO
-    status = "ok"
-    username = "TestUser123"
-    sid = "132uygsfd76f12"
-    content = "this is my private diary!!!\n~~~~\nI put all \
-        my secrets here and they will be locked with my face."
-    return {
-        "status": status,
-        "username": username,
-        "sid": sid,
-        "content": content,
-    }
+    except Exception as e:  # pylint: disable=broad-except
+        return jsonify({"error": str(e)})
+
+
+@app.route("/register", methods=["POST"])
+def register_user():
+    """Registers the user to the database."""
+    try:
+        req = request.get_json()
+
+        image_data = req["image"]
+        name_data = req["name"]
+        data = {"image": image_data, "name": name_data}
+        db["users"].insert_one(data)
+
+        return jsonify({"message": "Face was added to database"})
+    except Exception as e:  # pylint: disable=broad-except
+        return jsonify({"error": str(e)})
 
 
 if __name__ == "__main__":
