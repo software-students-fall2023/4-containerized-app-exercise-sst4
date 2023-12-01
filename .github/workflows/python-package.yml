@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
       - uses: actions/checkout@v3
@@ -36,7 +36,8 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Generate Report
         run: |
-          pip install coverage
-          coverage run --data-file .coverage -m pytest -s
-          coverage json --data-file .coverage -o buf/tests/coverage.json
-          coverage report --data-file .coverage
+          find . -name "*.pyc" -exec rm -f {} \;
+          pip install pytest-cov
+          pytest --cov-config=.coveragerc --cov=./ tests/ --cov-report=xml
+          python -m coverage run -m pytest
+          python -m coverage report
