@@ -47,7 +47,9 @@ def test_finds_no_face(app):
             with patch("machineLearningClient.recognition.jsonify", new=mock_jsonify):
                 response = recognition.recognize_user()
                 assert response.status_code == 200
-                mock_jsonify.assert_called_with({"message": "No faces found in the captured image."})
+                mock_jsonify.assert_called_with(
+                    {"message": "No faces found in the captured image."}
+                )
 
 
 def test_face_recognized(app):
@@ -58,7 +60,7 @@ def test_face_recognized(app):
     mock_request.get_json.return_value = {"image": image_data}
     mock_jsonify = Mock()
     mock_users = Mock()
-    mock_users.find.return_value = [{"image": image_data, "name":"Obama"}]
+    mock_users.find.return_value = [{"image": image_data, "name": "Obama"}]
     with patch("machineLearningClient.recognition.request", new=mock_request):
         with patch("machineLearningClient.recognition.users", new=mock_users):
             with patch("machineLearningClient.recognition.jsonify", new=mock_jsonify):
