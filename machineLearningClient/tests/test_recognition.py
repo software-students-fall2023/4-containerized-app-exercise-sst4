@@ -4,7 +4,6 @@ Unit tests for the Machine Learning Client
 import io
 import pytest
 from unittest.mock import Mock, patch
-
 from machineLearningClient import recognition
 
 
