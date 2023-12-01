@@ -37,6 +37,7 @@ jobs:
       - name: Generate Report
         run: |
           pip install coverage
+          coverage xml -i
           coverage run --data-file .coverage -m pytest -s
           coverage json --data-file .coverage -o buf/tests/coverage.json
           coverage report --data-file .coverage
