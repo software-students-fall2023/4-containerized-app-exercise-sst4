@@ -38,6 +38,6 @@ jobs:
         run: |
           find . -name "*.pyc" -exec rm -f {} \;
           pip install pytest-cov
-          pytest --cov=./ tests/ --cov-report=xml
+          pytest --cov-config=.coveragerc --cov=./ tests/ --cov-report=xml
           python -m coverage run -m pytest
           python -m coverage report
