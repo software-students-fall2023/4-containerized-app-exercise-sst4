@@ -2,10 +2,13 @@
 Unit tests for the Machine Learning Client
 """
 import io
+import os
+
 import pytest
 from unittest.mock import Mock, patch
 from machineLearningClient import recognition
 
+CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @pytest.fixture()
 def app():
@@ -21,7 +24,7 @@ def app():
 
 def test_finds_face(app):
     """Tests that recognition method finds a face."""
-    test_lines = io.open("test_encoding_0.txt", "r")
+    test_lines = io.open(CURR_DIR + "\\test_encoding_0.txt", "r")
     image_data = test_lines.readline()
     mock_request = Mock()
     mock_request.get_json.return_value = {"image": image_data}
@@ -36,7 +39,7 @@ def test_finds_face(app):
 
 def test_finds_no_face(app):
     """Tests that recognition method does not find a face."""
-    test_lines = io.open("test_encoding_1.txt", "r")
+    test_lines = io.open(CURR_DIR + "\\test_encoding_1.txt", "r")
     image_data = test_lines.readline()
     mock_request = Mock()
     mock_request.get_json.return_value = {"image": image_data}
@@ -53,7 +56,7 @@ def test_finds_no_face(app):
 
 def test_face_recognized(app):
     """Tests that recognition method recognizes a face from the database."""
-    test_lines = io.open("test_encoding_0.txt", "r")
+    test_lines = io.open(CURR_DIR + "\\test_encoding_0.txt", "r")
     image_data = test_lines.readline()
     mock_request = Mock()
     mock_request.get_json.return_value = {"image": image_data}
@@ -72,9 +75,9 @@ def test_face_recognized(app):
 
 def test_face_not_recognized(app):
     """Tests that recognition method does not match face with face from database."""
-    test_lines = io.open("test_encoding_0.txt", "r")
+    test_lines = io.open(CURR_DIR + "\\test_encoding_0.txt", "r")
     image_data = test_lines.readline()
-    test_lines1 = io.open("test_encoding_2.txt", "r")
+    test_lines1 = io.open(CURR_DIR + "\\test_encoding_2.txt", "r")
     image_data1 = test_lines1.readline()
     mock_request = Mock()
     mock_request.get_json.return_value = {"image": image_data}
