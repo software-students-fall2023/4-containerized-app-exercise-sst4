@@ -36,7 +36,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Generate Report
         run: |
-          find . -name "*.pyc" -exec rm -f {} \
+          find . -name "*.pyc" -exec rm -f {} \;
           pip install pytest-cov
           pytest --cov=./ tests/ --cov-report=xml
           python -m coverage run -m pytest
