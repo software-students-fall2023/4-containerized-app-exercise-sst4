@@ -36,8 +36,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Generate Report
         run: |
-          pip install coverage
-          coverage xml -i
+          pip install --ignore-installed coverage
           coverage run --data-file .coverage -m pytest -s
           coverage json --data-file .coverage -o buf/tests/coverage.json
           coverage report --data-file .coverage
