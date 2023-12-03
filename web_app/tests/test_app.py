@@ -10,6 +10,7 @@ from web_app.app import app
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 @pytest.fixture
 def client():
     """configuring Flask application to run in testing"""
@@ -26,9 +27,7 @@ def test_index_template(client):
 
 def test_recognize_no_input(client):
     """Test the regonize post feature without image."""
-    response = client.post(
-        "/recognize"
-    )
+    response = client.post("/recognize")
     assert b"error" in response.data
 
 
@@ -44,9 +43,7 @@ def test_recognize(client):
 
 def test_register_no_input(client):
     """Test the register feature without image."""
-    response = client.post(
-        "/register"
-    )
+    response = client.post("/register")
     assert b"error" in response.data
 
 
