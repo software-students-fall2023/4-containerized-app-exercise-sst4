@@ -71,6 +71,7 @@ jobs:
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
             cd 4-containerized-app-exercise-sst4/
+            git pull
             docker-compose pull
             docker-compose down
             docker-compose up -d
