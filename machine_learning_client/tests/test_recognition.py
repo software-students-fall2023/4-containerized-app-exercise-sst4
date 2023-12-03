@@ -6,7 +6,7 @@ import os
 
 import pytest
 from unittest.mock import Mock, patch
-from machineLearningClient import recognition
+from machine_learning_client import recognition
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 

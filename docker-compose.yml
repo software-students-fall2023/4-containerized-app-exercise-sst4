@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   machine_learning_client:
-    build: ./machineLearningClient
+    build: ./machine_learning_client
     container_name: machineLearningClient
     image: sst4/machine_learning_client
     environment:
