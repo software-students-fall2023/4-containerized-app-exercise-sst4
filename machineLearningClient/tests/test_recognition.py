@@ -6,7 +6,10 @@ import os
 
 import pytest
 from unittest.mock import Mock, patch
-from machineLearningClient import recognition
+try:
+    from machineLearningClient import recognition
+except ModuleNotFoundError:
+    from .. import recognition
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 
