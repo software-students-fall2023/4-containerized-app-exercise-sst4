@@ -50,18 +50,18 @@ jobs:
 
       - name: Build and Push Web-App Docker Image
         run: |
-          docker build -f web_app/Dockerfile -t sst4/web-app:latest ./web_app
-          docker push sst4/web_app:latest
+          docker build -f web_app/Dockerfile -t vitarose/web_app:latest ./web_app
+          docker push vitarose/web_app:latest
 
       - name: Build and Push Machine Learning Client Docker Image
         run: |
-          docker build -f machine-learning-client/Dockerfile -t sst4/machine-learning-client:latest ./machine-learning-client
-          docker push sst4/machine-learning-client:latest
+          docker build -f machine_learning_client/Dockerfile -t vitarose/machine_learning_client:latest ./machine_learning_client
+          docker push vitarose/machine_learning_client:latest
 
       - name: Build and Push MongoDB Docker Image
         run: |
-          docker build -f mongodb/Dockerfile -t sst4/mongodb:latest ./mongodb
-          docker push sst4/mongodb:latest
+          docker build -f mongodb/Dockerfile -t vitarose/mongodb:latest ./mongodb
+          docker push vitarose/mongodb:latest
 
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
