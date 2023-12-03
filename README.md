@@ -1,6 +1,8 @@
+# FacialBook
+
 ![example workflow](https://github.com/software-students-fall2023/4-containerized-app-exercise-sst4/actions/workflows/python-package.yml/badge.svg)
 
-### What is our app?
+### What is FacialBook?
 
 We have created a face recognizing web app. The app take a picture of you and if it recognizes you it will print your name to the screen. If it does not recognize you, you will be given the opportunity to register yourself. You will be prompted to type your name and then take another picture of yourself which will be uploaded to the database. You may then go back and capture your face once again and the app should recognize who you are.
 
@@ -14,7 +16,7 @@ Please make sure that the browser you use has the ability to have access to your
 
 ### Contributors
 
-[Richard Li](https://github.com/Silver1793)
-[Ryan Zhang](https://github.com/CouriersRyan)
-[Allyson Chan](https://github.com/tinybitofheaven)
+[Richard Li](https://github.com/Silver1793) \
+[Ryan Zhang](https://github.com/CouriersRyan) \
+[Allyson Chan](https://github.com/tinybitofheaven) \
 [Brad Feng](https://github.com/BradFeng02)
