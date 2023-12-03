@@ -4,7 +4,7 @@ services:
   machine_learning_client:
     build: ./machine_learning_client
     container_name: machine_learning_client
-    image: sst4/machine_learning_client
+    image: vitarose/machine_learning_client
     environment:
       - MONGODB_URI=mongodb://mongo:27017/
       - MONGODB_DATABASE=database1
@@ -18,7 +18,7 @@ services:
   web-app:
     build: ./web_app
     container_name: web-app
-    image: sst4/web-app
+    image: vitarose/web-app
     environment:
       - MONGODB_URI=mongodb://mongo:27017/
       - MONGODB_DATABASE=database1
@@ -36,7 +36,7 @@ services:
     environment:
       - MONGODB_URI=mongodb+srv://Richardli1793:Dog12345@cluster0.yxi9tc7.mongodb.net/database1
       - MONGODB_DATABASE=database1
-    image: sst4/mongodb
+    image: vitarose/mongodb
     ports:
       - "27017:27017"
     volumes:

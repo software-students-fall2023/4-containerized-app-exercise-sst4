@@ -41,3 +41,37 @@ jobs:
           pytest --cov-config=.coveragerc --cov=./web_app/tests --cov-report=xml
           python -m coverage run -m pytest
           python -m coverage report
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Web-App Docker Image
+        run: |
+          docker build -f web_app/Dockerfile -t vitarose/web_app:latest ./web_app
+          docker push vitarose/web_app:latest
+
+      - name: Build and Push Machine Learning Client Docker Image
+        run: |
+          docker build -f machine_learning_client/Dockerfile -t vitarose/machine_learning_client:latest ./machine_learning_client
+          docker push vitarose/machine_learning_client:latest
+
+      - name: Build and Push MongoDB Docker Image
+        run: |
+          docker build -f mongodb/Dockerfile -t vitarose/mongodb:latest ./mongodb
+          docker push vitarose/mongodb:latest
+
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DIGITALOCEAN_DROPLET_IP }}
+          username: ${{ secrets.DIGITALOCEAN_DROPLET_USERNAME }}
+          key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
+          script: |
+            mkdir application
+            cd application
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
