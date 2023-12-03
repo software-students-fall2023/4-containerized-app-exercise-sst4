@@ -1,9 +1,11 @@
+"""
+Unit tests for the Web App
+"""
 import io
 import os
-
 import pytest
+
 from unittest.mock import Mock, patch
-import web_app.app
 from web_app.app import app
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -15,18 +17,20 @@ def client():
     with app.test_client() as client:
         yield client
 
-        
+
 def test_index_template(client):
     """Test the index page view."""
     response = client.get("/")
     assert response.status_code == 200
-    
+
+
 def test_recognize_no_input(client):
     """Test the regonize post feature without image."""
     response = client.post(
         "/recognize"
     )
     assert b"error" in response.data
+
 
 def test_recognize(client):
     """Test the regonize post feature with image."""
@@ -36,13 +40,15 @@ def test_recognize(client):
     with patch("web_app.app.request", new=mock_request):
         response = client.post("/recognize")
         assert response.status_code == 200
-    
+
+
 def test_register_no_input(client):
     """Test the register feature without image."""
     response = client.post(
         "/register"
     )
     assert b"error" in response.data
+
 
 def test_register(client):
     """Test register post feature."""
