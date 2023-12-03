@@ -41,3 +41,41 @@ jobs:
           pytest --cov-config=.coveragerc --cov=./web_app/tests --cov-report=xml
           python -m coverage run -m pytest
           python -m coverage report
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: sst4/your-repo-name:latest
+
+      - name: Build and Push Web-App Docker Image
+        run: |
+          docker build -f web_app/Dockerfile -t sst4/web-app:latest ./web_app
+          docker push sst4/web_app:latest
+
+      - name: Build and Push Machine Learning Client Docker Image
+        run: |
+          docker build -f machine-learning-client/Dockerfile -t sst4/machine-learning-client:latest ./machine-learning-client
+          docker push sst4/machine-learning-client:latest
+
+      - name: Build and Push MongoDB Docker Image
+        run: |
+          docker build -f mongodb/Dockerfile -t sst4/mongodb:latest ./mongodb
+          docker push sst4/mongodb:latest
+
+      - name: Setup doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Deploy to DigitalOcean
+        run: |
+          doctl compute droplet delete facialbook-software-engineering-project4 --force
+          doctl compute droplet create facialbook-software-engineering-project4 --image docker-18-04 --size s-1vcpu-1gb --region nyc3 --ssh-keys ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGY5xX5MTyxtrVycYt84ApOUAtcmeF05WmyukIxi4zU+l+g4xCVuCWOG9wxK5FMv0nHUbLdckdZTwoyd335i9gL7+KhiiLm6Q4/nq0lQ+WJYRiasPbPPvrRY+PLD2k/8zXRf19CuwNoRZgxDszeBjrot6RLE+waQ4zXSivi3mcCdjcQ0NhUWpuK8RLcxJvyDCX+r7O2uW0GqL223BEbNDvxS68G1yjS6H04L2598tYLh003rb5QQtX0Un5SQNz4ulTg+vOfg7L+VezqwPLu09ozVLGyaWY8dG5hnZSA2N9lyhrLAF/GHuR//EdzRyG/5qu+srm5ylPnlS00SpmFU2F rsa-key-20231203 --user-data-file deploy.sh --wait
