@@ -46,7 +46,9 @@ def recognize_user_api():
             ml_client_url, json={"image": image_data}, headers=headers, timeout=10
         )
 
-        return ml_client_response.json()
+        response = ml_client_response.json()
+        response.status_code = 200
+        return response
 
     except Exception as e:  # pylint: disable=broad-except
         return jsonify({"error": str(e)})
