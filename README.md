@@ -9,6 +9,12 @@ We have created a face recognition web application that takes a picture of you a
 
 ### How To Run
 
+## From Digital Ocean Deployment
+
+## From Docker Hub
+
+## Locally with Docker
+
 Please make sure that Docker Desktop is installed and running.
 Please go into the root directory and type `docker-compose up --build`.
 Please wait for the build to complete, please be aware that due to the large amount of libraries that need to be installed for the Machine Learning Client this can take up to potentially 10-15 minutes.
