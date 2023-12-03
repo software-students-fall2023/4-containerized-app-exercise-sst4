@@ -1,22 +1,22 @@
 FROM python:3.10.3-slim-bullseye
 
-WORKDIR /app/machineLearningClient
+WORKDIR /app/machine_learning_client
 
 COPY requirements.txt ./
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        build-essential \
-        cmake \
-        libopenblas-dev \
-        liblapack-dev \
-        libx11-dev \
-        libgl1-mesa-glx libglib2.0-0 \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgl1-mesa-glx libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app/machineLearningClient
+COPY . /app/machine_learning_client
 
 EXPOSE 6000
 

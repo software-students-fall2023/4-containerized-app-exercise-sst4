@@ -11,9 +11,9 @@ We have created a face recognition web application. The app take a picture of yo
 
 Please make sure that Docker Desktop is installed and running.
 Please go into the root directory and type `docker-compose up --build`.
-Please wait for the build to complete, please be aware that due to the large amount of libraries that need to be installed from the machine learning client this can take up to potentially 15 minutes.
-Please go to your local host 5000 and use the app.
-Please make sure that the browser you use has the ability to have access to your camera and please be sure to turn your camera on, this works best with a built in laptop camera.
+Please wait for the build to complete, please be aware that due to the large amount of libraries that need to be installed for the Machine Learning Client this can take up to potentially 10-15 minutes.
+Please go to [http://127.0.0.1:5000](http://127.0.0.1:5000) to use the app.
+Please make sure that the browser you use has the ability to have access to your camera and please be sure to turn your camera on, this works best with a built in laptop camera. If you are using a USB webcam, you may need to reload the page before the application registers camera input.
 
 ### Contributors
 
