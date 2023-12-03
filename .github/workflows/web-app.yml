@@ -67,10 +67,11 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DIGITALOCEAN_DROPLET_IP }}
-          username: root
+          username: ${{ secrets.DIGITALOCEAN_DROPLET_USERNAME }}
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
-            cd /var/www/application
+            mkdir application
+            cd application
             docker-compose pull
             docker-compose down
             docker-compose up -d
