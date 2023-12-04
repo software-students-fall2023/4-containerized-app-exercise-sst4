@@ -22,7 +22,7 @@ If you want to run deployed version go to: [http://137.184.181.41:5000/](http://
 
 #### Using Chrome
 
-1. Open [chrome://settings/content/insecureContent](chrome://settings/content/insecureContent).
+1. Open a new tab and copy paste the following link into the address: `chrome://settings/content/insecureContent`.
 2. Under "Allowed to show insecure content" click "Add".
 3. Add [http://137.184.181.41:5000/](http://137.184.181.41:5000/) as the site URL.
 4. Go back to the page and reload, on prompt, allow the site to access your camera.
