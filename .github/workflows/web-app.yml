@@ -70,8 +70,7 @@ jobs:
           username: ${{ secrets.DIGITALOCEAN_DROPLET_USERNAME }}
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
-            mkdir application
-            cd application
+            cd 4-containerized-app-exercise-sst4/
             docker-compose pull
             docker-compose down
             docker-compose up -d

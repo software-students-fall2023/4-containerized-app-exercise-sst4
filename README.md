@@ -5,9 +5,15 @@
 
 ### What is FacialBook?
 
-We have created a face recognition web application. The app take a picture of you and if it recognizes you it will greet you by name. If it does not recognize you, you will be given the opportunity to register yourself to the database. After taking a photo and if it does not recognize you, you will be prompted to type your name which it will save along with the photo you took. You may then go back and capture your face once again and the app should recognize who you are.
+We have created a face recognition web application that takes a picture of you and if it recognizes you it will greet you by name. If it does not recognize you, you will be given the opportunity to register yourself to the database. After taking a photo and if it does not recognize you, you will be prompted to type your name which it will save along with the photo you took. You may then go back and capture your face once again and the app should recognize who you are.
 
 ### How To Run
+
+## From Digital Ocean Deployment
+
+## From Docker Hub
+
+## Locally with Docker
 
 Please make sure that Docker Desktop is installed and running.
 Please go into the root directory and type `docker-compose up --build`.

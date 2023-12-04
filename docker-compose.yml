@@ -12,13 +12,11 @@ services:
       - "6000:6000"
     depends_on:
       - mongodb
-    networks:
-      - backend
 
   web-app:
     build: ./web_app
-    container_name: web-app
-    image: vitarose/web-app
+    container_name: web_app
+    image: vitarose/web_app
     environment:
       - MONGODB_URI=mongodb://mongo:27017/
       - MONGODB_DATABASE=database1
@@ -27,8 +25,6 @@ services:
     depends_on:
       - mongodb
       - "machine_learning_client"
-    networks:
-      - backend
 
   mongodb:
     build: ./mongodb
@@ -41,11 +37,6 @@ services:
       - "27017:27017"
     volumes:
       - dbdata:/data/db
-    networks:
-      - backend
 
 volumes:
   dbdata:
-
-networks:
-  backend:
