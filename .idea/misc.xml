@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="enabledOnReformat" value="true" />
+    <option name="sdkUUID" value="3c8f5660-abb2-45b3-ad15-53813e11667c" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Pipenv (4-containerized-app-exercise-sst4)" project-jdk-type="Python SDK" />
+  <component name="PyCharmProfessionalAdvertiser">
+    <option name="shown" value="true" />
+  </component>
+</project>

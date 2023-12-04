@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Facialbook</title>
+
+		<link
+			rel="preload"
+			href="https://fonts.googleapis.com/css?family=Shantell+Sans:500"
+			as="style" />
+		<link
+			rel="preload"
+			href="{{ url_for('static', filename='css/normalize.css') }}"
+			as="style" />
+		<link
+			rel="preload"
+			href="{{ url_for('static', filename='css/index.css') }}"
+			as="style" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Shantell+Sans:500" />
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='css/normalize.css') }}" />
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='css/index.css') }}" />
+
+		<script
+			src="{{ url_for('static', filename='js/index.js') }}"
+			async></script>
+
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+		<header>
+			<div id="logo-icon">
+				<span id="logo-icon-letter">F</span>
+			</div>
+			<span id="logo-text">Facialbook</span>
+		</header>
+		<main>
+			<div
+				id="account-div"
+				class="grow flex-div">
+				<div
+					id="login"
+					class="big flex-item">
+					<p class="info">Center your face and smile 🙂</p>
+					<div id="camera-div">
+						<canvas
+							id="cam-canvas"
+							width="350"
+							height="350"
+							style="display: none"></canvas>
+						<div id="cam-wrapper">
+							<video
+								poster="{{ url_for('static', filename='img/face.jpg') }}"
+								id="camera"
+								class="cam-swapping"
+								width="350"
+								height="350">
+								📸
+							</video>
+						</div>
+						<div id="swap-btn-div">
+							<button
+								id="swap-camera-btn"
+								type="button">
+								🔄 ...
+							</button>
+						</div>
+						<img
+							id="photo"
+							src=""
+							alt="your face"
+							width="350"
+							height="350" />
+					</div>
+					<div id="btn-div">
+						<button
+							id="take-photo"
+							class="login-btn"
+							type="button">
+							Take photo
+						</button>
+						<button
+							id="back-btn"
+							class="login-btn"
+							type="button"
+							style="display: none">
+							Back
+						</button>
+						<button
+							id="submit"
+							class="login-btn"
+							type="button"
+							style="display: none">
+							Continue
+						</button>
+						<button
+							id="register"
+							class="login-btn"
+							type="button"
+							style="display: none">
+							Register?
+						</button>
+						<form
+							id="registration-form"
+							style="display: none">
+							<input
+								type="text"
+								id="name"
+								name="name"
+								placeholder="Name"
+								required />
+						</form>
+						<button
+							id="register-confirm"
+							class="login-btn"
+							type="button"
+							style="display: none">
+							OK!
+						</button>
+					</div>
+					<div style="flex-grow: 1"></div>
+					<p
+						id="message-container"
+						style="vertical-align: baseline; margin: 20px; color: gray; font-size: 15px; font-style: italic">
+						Result of your photo analysis will appear here.
+					</p>
+				</div>
+				<div
+					id="account"
+					class="small flex-item">
+					<div
+						id="greeting"
+						style="height: 100%; display: flex; flex-direction: column; justify-content: space-between">
+						<p style="margin: 0; font-size: 20px; font-weight: 500">Welcome back,</p>
+						<p
+							id="acct-name"
+							style="margin: 0; font-size: 20px; font-weight: 700">
+							Bob
+						</p>
+					</div>
+					<img
+						id="acct-photo"
+						src=""
+						alt="your face"
+						width="350"
+						height="350" />
+				</div>
+			</div>
+			<div id="bottom"></div>
+		</main>
+	</body>
+</html>

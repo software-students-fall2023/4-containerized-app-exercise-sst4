@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  machine_learning_client:
+    build: ./machine_learning_client
+    container_name: machine_learning_client
+    image: vitarose/machine_learning_client
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGODB_DATABASE=database1
+    ports:
+      - "6000:6000"
+    depends_on:
+      - mongodb
+
+  web-app:
+    build: ./web_app
+    container_name: web_app
+    image: vitarose/web_app
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - MONGODB_DATABASE=database1
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+      - "machine_learning_client"
+
+  mongodb:
+    build: ./mongodb
+    container_name: mongodb
+    environment:
+      - MONGODB_URI=mongodb+srv://Richardli1793:Dog12345@cluster0.yxi9tc7.mongodb.net/database1
+      - MONGODB_DATABASE=database1
+    image: vitarose/mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - dbdata:/data/db
+
+volumes:
+  dbdata:
