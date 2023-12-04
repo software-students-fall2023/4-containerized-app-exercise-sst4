@@ -71,6 +71,10 @@ jobs:
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
             cd 4-containerized-app-exercise-sst4/
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker rmi -f $(docker images -aq)
+            docker volume prune -f
             docker-compose pull
             docker-compose down
             docker-compose up -d
